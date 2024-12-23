@@ -1,0 +1,14 @@
+<div id="<%= dom_id movie %>">
+  <p>
+    <strong>Title:</strong>
+    <%= movie.title %>
+  </p>
+
+  <p>
+    <strong>Genre(s):</strong>
+    <% movie.genres.each do |genre| %>
+      <%= render genre %>
+    <% end %>
+  </p>
+
+</div>
