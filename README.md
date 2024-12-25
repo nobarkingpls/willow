@@ -34,6 +34,18 @@ post to movies.json example
 				"start": "2024-12-24T19:33",
 				"end": "2024-12-31T19:33",
 				"_destroy": "0"
+				},
+			"1": {
+				"country_code": "US",
+				"start": "2024-12-24T19:33",
+				"end": "2024-12-31T19:33",
+				"_destroy": "0"
+				},
+			"2": {
+				"country_code": "AU",
+				"start": "2024-12-24T19:33",
+				"end": "2024-12-31T19:33",
+				"_destroy": "0"
 				}
 		}
 	}
