@@ -13,6 +13,7 @@ class MoviesController < ApplicationController
   # GET /movies/new
   def new
     @movie = Movie.new
+    1.times { @movie.rights.build }
   end
 
   # GET /movies/1/edit
@@ -65,6 +66,6 @@ class MoviesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def movie_params
-      params.require(:movie).permit(:title, :genre_ids => [])
+      params.require(:movie).permit(:title, :genre_ids => [], rights_attributes: [[ :id, :country_code, :start, :end, :_destroy ]] )
     end
 end

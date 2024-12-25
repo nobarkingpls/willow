@@ -11,4 +11,11 @@
     <% end %>
   </p>
 
+  <p>
+    <strong>Right(s):</strong>
+    <% movie.rights.each do |right| %>
+      <%= render right %>
+    <% end %> 
+  </p>
+
 </div>

@@ -21,6 +21,30 @@
     <%= form.select :genre_ids, options_for_select(Genre.all.pluck(:name, :id), movie.genres.pluck(:id)), { includes_hidden: false }, multiple: true  %>
   </div>
 
+  <%= form.fields_for :rights do |rights_form| %>
+
+    <div>
+      <%= rights_form.label :country_code, style: "display: block" %>
+      <%= rights_form.country_select :country_code %>
+    </div>
+
+    <div>
+      <%= rights_form.label :start, style: "display: block" %>
+      <%= rights_form.datetime_field :start %>
+    </div>
+
+    <div>
+      <%= rights_form.label :end, style: "display: block" %>
+      <%= rights_form.datetime_field :end %>
+    </div>
+
+    <div>
+      <%= rights_form.checkbox :_destroy %>
+    </div>
+
+    </div>
+    <% end %>
+
   <div>
     <%= form.submit %>
   </div>

@@ -1,0 +1,37 @@
+<%= form_with(model: right) do |form| %>
+  <% if right.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(right.errors.count, "error") %> prohibited this right from being saved:</h2>
+
+      <ul>
+        <% right.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :country_code, style: "display: block" %>
+    <%= form.country_select :country_code %>
+  </div>
+
+  <div>
+    <%= form.label :start, style: "display: block" %>
+    <%= form.datetime_field :start %>
+  </div>
+
+  <div>
+    <%= form.label :end, style: "display: block" %>
+    <%= form.datetime_field :end %>
+  </div>
+
+  <div>
+    <%= form.label :movie_id, style: "display: block" %>
+    <%= form.text_field :movie_id %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
