@@ -21,6 +21,11 @@
     <%= form.select :genre_ids, options_for_select(Genre.all.pluck(:name, :id), movie.genres.pluck(:id)), { includes_hidden: false }, multiple: true  %>
   </div>
 
+  <div>
+    <%= form.label :actor, style: "display: block" %>
+    <%= form.text_field :actors, value: movie.actors.map(&:name).join(",")  %>
+  </div>
+
   <%= form.fields_for :rights do |rights_form| %>
 
     <div>

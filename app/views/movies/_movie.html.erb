@@ -12,9 +12,29 @@
   </p>
 
   <p>
+    <strong>Actor(s):</strong>
+    <% movie.actors.each do |actor| %>
+      <%= render actor %>
+    <% end %>
+  </p>
+
+  <p>
     <strong>Right(s):</strong>
     <% movie.rights.each do |right| %>
-      <%= render right %>
+      <p>
+        <strong>Country:</strong>
+        <%= right.country_code %>
+      </p>
+
+      <p>
+        <strong>Start:</strong>
+        <%= right.start %>
+      </p>
+
+      <p>
+        <strong>End:</strong>
+        <%= right.end %>
+      </p>
     <% end %> 
   </p>
 

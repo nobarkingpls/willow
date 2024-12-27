@@ -13,7 +13,7 @@ class MoviesController < ApplicationController
   # GET /movies/new
   def new
     @movie = Movie.new
-    1.times { @movie.rights.build }
+    5.times { @movie.rights.build }
   end
 
   # GET /movies/1/edit
@@ -22,7 +22,8 @@ class MoviesController < ApplicationController
 
   # POST /movies or /movies.json
   def create
-    @movie = Movie.new(movie_params)
+    @movie = Movie.new(movie_params.except(:actors))
+    create_or_delete_actors_movies(@movie, params[:movie][:actors])
 
     respond_to do |format|
       if @movie.save
@@ -37,8 +38,10 @@ class MoviesController < ApplicationController
 
   # PATCH/PUT /movies/1 or /movies/1.json
   def update
+    create_or_delete_actors_movies(@movie, params[:movie][:actors])
+
     respond_to do |format|
-      if @movie.update(movie_params)
+      if @movie.update(movie_params.except(:actors))
         format.html { redirect_to @movie, notice: "Movie was successfully updated." }
         format.json { render :show, status: :ok, location: @movie }
       else
@@ -59,6 +62,14 @@ class MoviesController < ApplicationController
   end
 
   private
+    def create_or_delete_actors_movies(movie, actors)
+      movie.actors_movies.destroy_all
+      actors.split(",").each do |actor|
+        actor.strip!
+        movie.actors << Actor.find_or_create_by(name: actor)
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_movie
       @movie = Movie.find(params.expect(:id))
@@ -66,6 +77,6 @@ class MoviesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def movie_params
-      params.require(:movie).permit(:title, :genre_ids => [], rights_attributes: [[ :id, :country_code, :start, :end, :_destroy ]] )
+      params.require(:movie).permit(:title, :actors, genre_ids: [], rights_attributes: [ [ :id, :country_code, :start, :end, :_destroy ] ])
     end
 end
