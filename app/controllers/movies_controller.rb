@@ -23,7 +23,7 @@ class MoviesController < ApplicationController
   # POST /movies or /movies.json
   def create
     @movie = Movie.new(movie_params.except(:actors))
-    create_or_delete_actors_movies(@movie, params[:movie][:actors])
+    create_actors_movies(@movie, params[:movie][:actors])
 
     respond_to do |format|
       if @movie.save
@@ -38,7 +38,7 @@ class MoviesController < ApplicationController
 
   # PATCH/PUT /movies/1 or /movies/1.json
   def update
-    create_or_delete_actors_movies(@movie, params[:movie][:actors])
+    create_actors_movies(@movie, params[:movie][:actors])
 
     respond_to do |format|
       if @movie.update(movie_params.except(:actors))
@@ -61,8 +61,7 @@ class MoviesController < ApplicationController
   end
 
   private
-    def create_or_delete_actors_movies(movie, actors)
-      movie.actors_movies.destroy_all
+    def create_actors_movies(movie, actors)
       actors.split(",").each do |actor|
         actor.strip!
         movie.actors << Actor.find_or_create_by(name: actor)
