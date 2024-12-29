@@ -1,25 +1,25 @@
 <div id="<%= dom_id movie %>">
   <p>
-    <strong>Title:</strong>
-    <%= movie.title %>
+    <h1><%= movie.title %></h1>
   </p>
 
   <p>
-    <strong>Genre(s):</strong>
+    <strong>Genres:</strong>
     <% movie.genres.each do |genre| %>
       <%= render genre %>
     <% end %>
   </p>
 
   <p>
-    <strong>Actor(s):</strong>
+    <strong>Actors:</strong>
     <% movie.actors.each do |actor| %>
       <%= render actor %>
     <% end %>
   </p>
 
   <p>
-    <strong>Right(s):</strong>
+    <strong>Rights:</strong>
+
     <% movie.rights.each do |right| %>
       <p>
         <strong>Country:</strong>

@@ -17,12 +17,12 @@
   </div>
 
   <div>
-    <%= form.label :genre_ids, 'Add genres', style: "display: block" %>
+    <%= form.label :genre_ids, 'Genres', style: "display: block" %>
     <%= form.select :genre_ids, options_for_select(Genre.all.pluck(:name, :id), movie.genres.pluck(:id)), { includes_hidden: false }, multiple: true  %>
   </div>
 
   <div>
-    <%= form.label :actor, style: "display: block" %>
+    <%= form.label :actor, 'Actors', style: "display: block" %>
     <%= form.text_field :actors, value: movie.actors.map(&:name).join(",")  %>
   </div>
 

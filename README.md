@@ -26,8 +26,9 @@ Things you may want to cover:
 post to movies.json example
 
 { "movie": {
-		"title": "judith",
+		"title": "dingus 2",
 		"genre_ids": ["1", "2"],
+		"actors": "Willow, Judith",
 		"rights_attributes": {
 			"0": {
 				"country_code": "CA",

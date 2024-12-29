@@ -4,13 +4,35 @@
 
 <h1>Movies</h1>
 
-<div id="movies">
+<!-- <div id="movies">
   <% @movies.each do |movie| %>
-    <%= render movie %>
+    <%#%>= render movie %>
     <p>
-      <%= link_to "Show this movie", movie %>
+      <%#%>= link_to "Show this movie", movie %>
     </p>
   <% end %>
-</div>
+</div> -->
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @movies.each do |movie| %>
+      <tr>
+        <td><%= movie.title %></td>
+        <td><%= link_to "Show", movie %></td>
+        <td><%= link_to "Edit", edit_movie_path(movie) %></td>
+        <td><%= link_to "Destroy", movie, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
 
 <%= link_to "New movie", new_movie_path %>

@@ -4,13 +4,35 @@
 
 <h1>Actors</h1>
 
-<div id="actors">
+<!-- <div id="actors">
   <% @actors.each do |actor| %>
-    <%= render actor %>
+    <%#%>= render actor %>
     <p>
-      <%= link_to "Show this actor", actor %>
+      <%#%>= link_to "Show this actor", actor %>
     </p>
   <% end %>
-</div>
+</div> -->
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @actors.each do |actor| %>
+      <tr>
+        <td><%= actor.name %></td>
+        <td><%= link_to "Show", actor %></td>
+        <td><%= link_to "Edit", edit_actor_path(actor) %></td>
+        <td><%= link_to "Destroy", actor, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
 
 <%= link_to "New actor", new_actor_path %>
