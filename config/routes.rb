@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :countries
   resources :actors
   resources :rights
   resources :genres

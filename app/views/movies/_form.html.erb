@@ -17,38 +17,30 @@
   </div>
 
   <div>
-    <%= form.label :genre_ids, 'Genres', style: "display: block" %>
-    <%= form.select :genre_ids, options_for_select(Genre.all.pluck(:name, :id), movie.genres.pluck(:id)), { includes_hidden: false }, multiple: true  %>
+    <%= form.label :genres, 'Genres', style: "display: block" %>
+    <%#= form.select :genre_ids, options_for_select(Genre.all.pluck(:name, :name), movie.genres.pluck(:name)), { includes_hidden: false }, multiple: true  %>
+    <%= form.text_field :genres, value: movie.genres.map(&:name).join(",")  %>
   </div>
 
   <div>
-    <%= form.label :actor, 'Actors', style: "display: block" %>
+    <%= form.label :actors, 'Actors', style: "display: block" %>
     <%= form.text_field :actors, value: movie.actors.map(&:name).join(",")  %>
   </div>
 
-  <%= form.fields_for :rights do |rights_form| %>
+  <div>
+    <%= form.label :countries, 'Countries', style: "display: block" %>
+    <%= form.text_field :countries, value: movie.countries.map(&:code).join(",")  %>
+  </div>
 
-    <div>
-      <%= rights_form.label :country_code, style: "display: block" %>
-      <%= rights_form.country_select :country_code,  include_blank: "Select a country" %>
-    </div>
+  <div>
+    <%= form.label :start, style: "display: block" %>
+    <%= form.datetime_field :start %>
+  </div>
 
-    <div>
-      <%= rights_form.label :start, style: "display: block" %>
-      <%= rights_form.datetime_field :start %>
-    </div>
-
-    <div>
-      <%= rights_form.label :end, style: "display: block" %>
-      <%= rights_form.datetime_field :end %>
-    </div>
-
-    <div>
-      <%= rights_form.checkbox :_destroy %>
-    </div>
-
-    </div>
-    <% end %>
+  <div>
+    <%= form.label :finish, style: "display: block" %>
+    <%= form.datetime_field :finish %>
+  </div>
 
   <div>
     <%= form.submit %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_28_065613) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_15_000925) do
   create_table "actors", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -22,6 +22,20 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_28_065613) do
     t.integer "movie_id", null: false
     t.index ["actor_id", "movie_id"], name: "index_actors_movies_on_actor_id_and_movie_id"
     t.index ["movie_id", "actor_id"], name: "index_actors_movies_on_movie_id_and_actor_id"
+  end
+
+  create_table "countries", force: :cascade do |t|
+    t.string "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "name"
+  end
+
+  create_table "countries_movies", force: :cascade do |t|
+    t.integer "country_id", null: false
+    t.integer "movie_id", null: false
+    t.index ["country_id", "movie_id"], name: "index_countries_movies_on_country_id_and_movie_id"
+    t.index ["movie_id", "country_id"], name: "index_countries_movies_on_movie_id_and_country_id"
   end
 
   create_table "genres", force: :cascade do |t|
@@ -41,17 +55,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_28_065613) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "rights", force: :cascade do |t|
-    t.string "country_code"
     t.datetime "start"
-    t.datetime "end"
-    t.integer "movie_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["movie_id"], name: "index_rights_on_movie_id"
+    t.datetime "finish"
   end
-
-  add_foreign_key "rights", "movies"
 end

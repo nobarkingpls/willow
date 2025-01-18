@@ -13,7 +13,6 @@ class MoviesController < ApplicationController
   # GET /movies/new
   def new
     @movie = Movie.new
-    5.times { @movie.rights.build }
   end
 
   # GET /movies/1/edit
@@ -22,9 +21,10 @@ class MoviesController < ApplicationController
 
   # POST /movies or /movies.json
   def create
-    @movie = Movie.new(movie_params.except(:actors))
+    @movie = Movie.new(movie_params.except(:actors, :genres, :countries))
     create_actors_movies(@movie, params[:movie][:actors])
-
+    create_genres_movies(@movie, params[:movie][:genres])
+    create_countries_movies(@movie, params[:movie][:countries])
     respond_to do |format|
       if @movie.save
         format.html { redirect_to @movie, notice: "Movie was successfully created." }
@@ -39,9 +39,10 @@ class MoviesController < ApplicationController
   # PATCH/PUT /movies/1 or /movies/1.json
   def update
     create_actors_movies(@movie, params[:movie][:actors])
-
+    create_genres_movies(@movie, params[:movie][:genres])
+    create_countries_movies(@movie, params[:movie][:countries])
     respond_to do |format|
-      if @movie.update(movie_params.except(:actors))
+      if @movie.update(movie_params.except(:actors, :genres, :countries))
         format.html { redirect_to @movie, notice: "Movie was successfully updated." }
         format.json { render :show, status: :ok, location: @movie }
       else
@@ -62,9 +63,32 @@ class MoviesController < ApplicationController
 
   private
     def create_actors_movies(movie, actors)
-      actors.split(",").each do |actor|
-        actor.strip!
-        movie.actors << Actor.find_or_create_by(name: actor)
+      if actors.present?
+        movie.actors_movies.destroy_all
+        actors.split(",").each do |actor|
+          actor.strip!
+          movie.actors << Actor.find_or_create_by(name: actor)
+        end
+      end
+    end
+
+    def create_genres_movies(movie, genres)
+      if genres.present?
+        movie.genres_movies.destroy_all
+        genres.split(",").each do |genre|
+          genre.strip!
+          movie.genres << Genre.find_by(name: genre)
+        end
+      end
+    end
+
+    def create_countries_movies(movie, countries)
+      if countries.present?
+        movie.countries_movies.destroy_all
+        countries.split(",").each do |country|
+          country.strip!
+          movie.countries << Country.find_by(code: country)
+        end
       end
     end
 
@@ -75,6 +99,6 @@ class MoviesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def movie_params
-      params.require(:movie).permit(:title, :actors, genre_ids: [], rights_attributes: [ [ :id, :country_code, :start, :end, :_destroy ] ])
+      params.require(:movie).permit(:title, :actors, :genres, :countries, :start, :finish)
     end
 end

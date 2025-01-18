@@ -4,38 +4,31 @@
   </p>
 
   <p>
-    <strong>Genres:</strong>
-    <% movie.genres.each do |genre| %>
-      <%= render genre %>
-    <% end %>
+    <strong>Genres:</strong><br>
+    <%= movie.genres.map { |genre| genre.name }.join(", ") %>
+    <%# movie.genres.each do |genre| %>
+      <%#= render genre %>
+    <%# end %>
   </p>
 
   <p>
-    <strong>Actors:</strong>
-    <% movie.actors.each do |actor| %>
-      <%= render actor %>
-    <% end %>
+    <strong>Actors:</strong><br>
+    <%= movie.actors.map { |actor| actor.name }.join(", ") %>
   </p>
 
   <p>
-    <strong>Rights:</strong>
+    <strong>Countries:</strong><br>
+    <%= movie.countries.map { |country| country.code }.join(", ") %>
+  </p>
 
-    <% movie.rights.each do |right| %>
-      <p>
-        <strong>Country:</strong>
-        <%= right.country_code %>
-      </p>
+  <p>
+    <strong>Start:</strong>
+    <%= movie.start %>
+  </p>
 
-      <p>
-        <strong>Start:</strong>
-        <%= right.start %>
-      </p>
-
-      <p>
-        <strong>End:</strong>
-        <%= right.end %>
-      </p>
-    <% end %> 
+  <p>
+    <strong>Finish:</strong>
+    <%= movie.finish %>
   </p>
 
 </div>
