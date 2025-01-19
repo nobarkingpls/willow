@@ -43,7 +43,7 @@
 
     <div>  
       <%= form.label :movie_id, "Find a movie:" %>
-      <%= form.collection_select :movie_id, @movies, :id, :title %>
+      <%= form.collection_select :movie_id, Movie.all, :id, :title, prompt: true %>
     </div>  
 
     <div>

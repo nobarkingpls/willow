@@ -1,0 +1,12 @@
+<div id="<%= dom_id show %>">
+  <p>
+    <strong>Title:</strong>rails db:migrate
+    <%= show.title %>
+  </p>
+
+  <p>
+    <strong>Genres:</strong><br>
+    <%= show.genres.map { |genre| genre.name }.join(", ") %>
+  </p>
+
+</div>

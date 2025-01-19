@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_15_000925) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_19_223145) do
   create_table "actors", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -38,6 +38,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_15_000925) do
     t.index ["movie_id", "country_id"], name: "index_countries_movies_on_movie_id_and_country_id"
   end
 
+  create_table "episodes", force: :cascade do |t|
+    t.string "title"
+    t.datetime "start"
+    t.datetime "finish"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "genres", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -51,11 +59,32 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_15_000925) do
     t.index ["movie_id", "genre_id"], name: "index_genres_movies_on_movie_id_and_genre_id"
   end
 
+  create_table "genres_shows", force: :cascade do |t|
+    t.integer "genre_id", null: false
+    t.integer "show_id", null: false
+    t.index ["genre_id", "show_id"], name: "index_genres_shows_on_genre_id_and_show_id"
+    t.index ["show_id", "genre_id"], name: "index_genres_shows_on_show_id_and_genre_id"
+  end
+
   create_table "movies", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "start"
     t.datetime "finish"
+  end
+
+  create_table "seasons", force: :cascade do |t|
+    t.integer "number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "show_id"
+    t.index ["show_id"], name: "index_seasons_on_show_id"
+  end
+
+  create_table "shows", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 end
