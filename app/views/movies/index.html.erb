@@ -13,6 +13,7 @@
   <% end %>
 </div> -->
 
+<!--
 <table>
   <thead>
     <tr>
@@ -34,5 +35,34 @@
 </table>
 
 <br>
+-->
+
+<%= form_with(url: '/movies', method: "get") do |form| %>
+
+  <div>
+
+    <div>  
+      <%= form.label :movie_id, "Find a movie:" %>
+      <%= form.collection_select :movie_id, @movies, :id, :title %>
+    </div>  
+
+    <div>
+      <%= form.submit 'Search'%>
+    </div>
+
+  </div>
+
+<% end %>
+
+<br>
+
+<% if @searched_movie.present? %>
+
+  <h2>Search Results</h2>
+  <div>
+    <%= render 'select' %>
+  </div>
+
+<% end %>
 
 <%= link_to "New movie", new_movie_path %>

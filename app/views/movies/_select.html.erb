@@ -1,0 +1,28 @@
+<% if @searched_movie.present? %>
+    <table>
+    <thead>
+        <tr>
+        <th>Title</th>
+        <th>ID</th>
+        <th colspan="4"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td><%= @searched_movie.title %></td>
+            <td><%= @searched_movie.id %></td>
+            <td><%= link_to "Show", @searched_movie %></td>
+            <td><%= link_to "Edit", edit_movie_path(@searched_movie) %></td>
+            <td><%= link_to "Destroy", @searched_movie, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></td>
+        </tr>
+    </tbody>
+    </table>
+
+    <br>
+
+<% else %>
+    <div>
+      <h4>No movie found, please try again!</h4>
+    </div>
+<% end %>
