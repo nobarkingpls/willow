@@ -1,0 +1,35 @@
+<% if @searched_episodes.present? %>
+    <table>
+    <thead>
+        <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Season</th>
+        <th>Episode</th>
+        <th colspan="4"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% @searched_episodes.each do |episode| %>
+        <tr>
+                <td><%= episode.id %></td>
+                <td><%= episode.title %></td>
+                <td><%= episode.season.number %></td>
+                <td><%= episode.number %></td>
+
+                <td><%= link_to "Show", episode %></td>
+                <td><%= link_to "Edit", edit_episode_path(episode) %></td>
+                <td><%= link_to "Destroy", episode, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></td>
+        </tr>
+        <% end %>
+    </tbody>
+    </table>
+
+    <br>
+
+<% else %>
+    <div>
+      <h4>No episode found, please try again!</h4>
+    </div>
+<% end %>

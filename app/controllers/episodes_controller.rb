@@ -4,6 +4,17 @@ class EpisodesController < ApplicationController
   # GET /episodes or /episodes.json
   def index
     @episodes = Episode.all
+
+    # search logic
+    if params[:show_id].present?
+      @searched_episodes = Show.find(params[:show_id]).episodes
+
+    elsif params[:season_id].present? and params[:episode_number].nil?
+      @searched_episodes = Episode.find(params[:season_id])
+
+    elsif params[:season_id].present? and params[:episode_number].present?
+      @searched_episodes = Episode.where(season_id: params[:season_id]).where(number: params[:episode_number])
+    end
   end
 
   # GET /episodes/1 or /episodes/1.json

@@ -4,13 +4,55 @@
 
 <h1>Episodes</h1>
 
+<!--
 <div id="episodes">
   <% @episodes.each do |episode| %>
-    <%= render episode %>
+    <%#= render episode %>
     <p>
-      <%= link_to "Show this episode", episode %>
+      <%#= link_to "Show this episode", episode %>
     </p>
   <% end %>
 </div>
+-->
+
+<%= form_with(url: '/episodes', method: "get") do |form| %>
+
+  <div>
+
+    <div>  
+      <%= form.label :show_id, "Show" %><br>
+      <%= form.collection_select :show_id, Show.all, :id, :title, prompt: true %>
+    </div>
+
+    or
+
+    <div>  
+      <%= form.label :season_id, "Season" %><br>
+      <%= form.collection_select :season_id, Season.all, :id, :season_title, prompt: true %>
+    </div>
+
+    <div>  
+      <%= form.label :episode_number, "Episode" %>
+      <%= form.number_field :episode_number %>
+    </div>
+
+    <div>
+      <%= form.submit 'Search'%>
+    </div>
+
+  </div>
+
+<% end %>
+
+<br>
+
+<% if @searched_episodes.present? %>
+
+  <h2>Search Results</h2>
+  <div>
+    <%= render 'select' %>
+  </div>
+
+<% end %>
 
 <%= link_to "New episode", new_episode_path %>

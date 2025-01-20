@@ -4,4 +4,5 @@ class Show < ApplicationRecord
   validates_associated :genres
 
   has_many :seasons
+  has_many :episodes, through: :seasons
 end
