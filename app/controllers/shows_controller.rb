@@ -67,10 +67,21 @@ class ShowsController < ApplicationController
 
     def create_genres_shows(show, genres)
       if genres.present?
-        show.genres_shows.destroy_all
-        genres.split(",").each do |genre|
-          genre.strip!
-          show.genres << Genre.find_by(name: genre)
+        # Convert incoming genres string to array of names
+        new_genre_names = genres.split(",").map(&:strip)
+        # Get existing genre names for this show
+        existing_genre_names = show.genres.pluck(:name)
+
+        # Add new genres that aren't already associated
+        names_to_add = new_genre_names - existing_genre_names
+        names_to_add.each do |name|
+          show.genres << Genre.find_by(name: name)
+        end
+
+        # Remove genres that are no longer in the list
+        names_to_remove = existing_genre_names - new_genre_names
+        show.genres.where(name: names_to_remove).each do |genre|
+          show.genres.delete(genre)
         end
       end
     end

@@ -1,7 +1,28 @@
 <div id="<%= dom_id episode %>">
+  
+  <p>
+    <strong>Show:</strong>
+    <%= Season.find(episode.season_id).show_title %>
+  </p>
+
+  <p>
+    <strong>Season:</strong>
+    <%= Season.find(episode.season_id).number %>
+  </p>
+
+  <p>
+    <strong>Number:</strong>
+    <%= episode.number %>
+  </p>
+
   <p>
     <strong>Title:</strong>
     <%= episode.title %>
+  </p>
+
+  <p>
+    <strong>Countries:</strong><br>
+    <%= episode.countries.map { |country| country.code }.join(", ") %>
   </p>
 
   <p>

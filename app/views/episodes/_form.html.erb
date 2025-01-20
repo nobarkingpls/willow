@@ -12,8 +12,23 @@
   <% end %>
 
   <div>
+    <%= form.label :season_id, 'Season', style: "display: block" %>
+    <%= form.collection_select :season_id, Season.all, :id, :season_title, prompt: true %>
+  </div>
+
+  <div>
+    <%= form.label :number, style: "display: block" %>
+    <%= form.number_field :number %>
+  </div>
+
+  <div>
     <%= form.label :title, style: "display: block" %>
     <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :countries, 'Countries', style: "display: block" %>
+    <%= form.text_field :countries, value: episode.countries.map(&:code).join(",")  %>
   </div>
 
   <div>
