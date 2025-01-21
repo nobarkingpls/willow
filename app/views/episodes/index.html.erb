@@ -17,8 +17,6 @@
 
 <%= form_with(url: '/episodes', method: "get") do |form| %>
 
-  <div>
-
     <div>  
       <%= form.label :show_id, "Show" %><br>
       <%= form.collection_select :show_id, Show.all, :id, :title, prompt: true %>
@@ -40,8 +38,6 @@
       <%= form.submit 'Search'%>
     </div>
 
-  </div>
-
 <% end %>
 
 <br>
@@ -50,9 +46,7 @@
 
   <h2>Search Results</h2>
   <div>
-    <%= turbo_frame_tag "episodes" do %>
       <%= render 'select' %>
-    <% end %>
   </div>
 
 <% end %>
