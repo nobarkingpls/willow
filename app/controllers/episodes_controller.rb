@@ -9,7 +9,7 @@ class EpisodesController < ApplicationController
     if params[:show_id].present?
       @searched_episodes = Show.find(params[:show_id]).episodes
 
-    elsif params[:season_id].present?
+    elsif params[:season_id].present? and params[:episode_number].blank?
       @searched_episodes = Episode.where(season_id: params[:season_id])
 
     elsif params[:season_id].present? and params[:episode_number].present?
