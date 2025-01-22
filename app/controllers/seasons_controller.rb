@@ -4,6 +4,14 @@ class SeasonsController < ApplicationController
   # GET /seasons or /seasons.json
   def index
     @seasons = Season.all
+
+    # search logic
+    if params[:show_id].present? and params[:season_id].blank?
+      @searched_seasons = Show.find(params[:show_id]).seasons
+
+    elsif params[:season_id].present? and params[:show_id].blank?
+      @searched_seasons = Season.where(id: params[:season_id])
+    end
   end
 
   # GET /seasons/1 or /seasons/1.json
