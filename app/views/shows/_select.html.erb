@@ -1,0 +1,28 @@
+
+<% if @searched_show.present? %>
+
+            <table>
+            <thead>
+                <tr>
+                <th>ID</th>
+                <th>Show</th>
+                <th colspan="2"></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                        <td><%= @searched_show.id %></td>
+                        <td><%= @searched_show.title %></td>
+
+                        <td><%= link_to "Show", @searched_show %></td>
+                        <td><%= link_to "Edit", edit_show_path(@searched_show) %></td>
+                        <td><%= link_to "Destroy", @searched_show, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></td>
+                </tr>
+            
+            </tbody>
+            </table>
+
+            <br>
+    
+<% end %>

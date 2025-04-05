@@ -6,4 +6,5 @@ class Episode < ApplicationRecord
   validates_associated :countries
 
   validates :season_id, presence: true
+  validates :number, presence: true
 end

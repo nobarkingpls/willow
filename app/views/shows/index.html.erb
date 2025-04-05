@@ -4,13 +4,29 @@
 
 <h1>Shows</h1>
 
-<div id="shows">
-  <% @shows.each do |show| %>
-    <%= render show %>
-    <p>
-      <%= link_to "Show this show", show %>
-    </p>
-  <% end %>
-</div>
+
+<%= form_with(url: '/shows', method: "get") do |form| %>
+
+    <div>  
+      <%= form.label :show_id, "Show" %><br>
+      <%= form.collection_select :show_id, Show.all, :id, :title, prompt: true %>
+    </div>
+
+    <div>
+      <%= form.submit 'Search'%>
+    </div>
+
+<% end %>
+
+<br>
+
+<% if @searched_show.present? %>
+
+  <h2>Search Results</h2>
+  <div>
+      <%= render 'select' %>
+  </div>
+  
+<% end %>
 
 <%= link_to "New show", new_show_path %>

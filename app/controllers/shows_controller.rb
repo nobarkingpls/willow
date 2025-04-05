@@ -4,6 +4,11 @@ class ShowsController < ApplicationController
   # GET /shows or /shows.json
   def index
     @shows = Show.all
+
+    # search logic
+    if params[:show_id].present?
+      @searched_show = Show.find(params[:show_id])
+    end
   end
 
   # GET /shows/1 or /shows/1.json
@@ -88,6 +93,6 @@ class ShowsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def show_params
-      params.expect(show: [ :title, :genres ])
+      params.expect(show: [ :show_id, :title, :genres ])
     end
 end

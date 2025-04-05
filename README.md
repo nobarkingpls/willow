@@ -1,5 +1,9 @@
 # README
 
+todos:
+add validation rules for everything
+add slim select or something like that and see if it can pass a comma seperated string of values to hash, and also display them back
+
 This README would normally document whatever steps are necessary to get the
 application up and running.
 

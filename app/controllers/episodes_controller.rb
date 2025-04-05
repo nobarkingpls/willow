@@ -3,17 +3,24 @@ class EpisodesController < ApplicationController
 
   # GET /episodes or /episodes.json
   def index
+    # Start by defining a scope to fetch episodes
     @episodes = Episode.all
 
-    # search logic
+    # Apply search logic with eager loading
+
     if params[:show_id].present?
-      @searched_episodes = Show.find(params[:show_id]).episodes
-
-    elsif params[:season_id].present? and params[:episode_number].blank?
-      @searched_episodes = Episode.where(season_id: params[:season_id])
-
-    elsif params[:season_id].present? and params[:episode_number].present?
-      @searched_episodes = Episode.where(season_id: params[:season_id]).where(number: params[:episode_number])
+      # Fetch the show and its episodes in a single query
+      @searched_episodes = Show.includes(seasons: :episodes)
+                               .find(params[:show_id])
+                               .episodes
+    elsif params[:season_id].present? && params[:episode_number].blank?
+      # Eager load seasons and episodes
+      @searched_episodes = Episode.includes(:season).where(season_id: params[:season_id])
+    elsif params[:season_id].present? && params[:episode_number].present?
+      # Eager load seasons and episodes, and filter by season and episode number
+      @searched_episodes = Episode.includes(:season)
+                                   .where(season_id: params[:season_id])
+                                   .where(number: params[:episode_number])
     end
   end
 
