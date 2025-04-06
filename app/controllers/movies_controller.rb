@@ -22,6 +22,7 @@ class MoviesController < ApplicationController
 
   # GET /movies/1/edit
   def edit
+    @movie = Movie.find(params[:id])
   end
 
   # POST /movies or /movies.json
@@ -46,8 +47,25 @@ class MoviesController < ApplicationController
     create_actors_movies(@movie, params[:movie][:actors])
     create_genres_movies(@movie, params[:movie][:genres])
     create_countries_movies(@movie, params[:movie][:countries])
+
+    if params[:movie][:delete_images].present?
+      # Loop through the delete_images array, which contains the signed_id
+      params[:movie][:delete_images].each do |blob_id|
+        # Find the attachment using the signed_id
+        attachment = @movie.images.find_by(blob_id: blob_id)
+
+        if attachment
+          # Use the blob_id to purge the attachment
+          attachment.purge
+          Rails.logger.debug "Purged image with blob_id: #{attachment.blob_id}"
+        else
+          Rails.logger.debug "No attachment found for blob_id: #{blob_id}"
+        end
+      end
+    end
+
     respond_to do |format|
-      if @movie.update(movie_params.except(:actors, :genres, :countries))
+      if @movie.update(movie_params.except(:actors, :genres, :countries, :delete_images))
         format.html { redirect_to @movie, notice: "Movie was successfully updated." }
         format.json { render :show, status: :ok, location: @movie }
       else
@@ -137,6 +155,6 @@ class MoviesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def movie_params
-      params.expect(movie: [ :title, :actors, :genres, :countries, :start, :finish ])
+      params.expect(movie: [ :title, :actors, :genres, :countries, :start, :finish, images: [], delete_images: [] ])
     end
 end

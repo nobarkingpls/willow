@@ -31,4 +31,11 @@
     <%= movie.finish %>
   </p>
 
+  <p>
+    <strong>Images:</strong>
+    <% movie.images.each do |image| %>
+      <%= link_to image_tag(image), image %>
+    <% end %>
+  </p>
+
 </div>

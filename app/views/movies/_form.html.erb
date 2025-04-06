@@ -42,6 +42,18 @@
     <%= form.datetime_field :finish %>
   </div>
 
+  <% @movie.images.each do |image| %>
+    <%= form.hidden_field :images, multiple: true, value: image.signed_id %>
+    <%= link_to image_tag(image), image %>
+    <%= form.check_box :delete_images, { multiple: true }, image.blob_id, nil %>
+    <%= form.label :delete_images, "Delete this image" %>
+  <% end %>
+
+  <div>
+    <%= form.label :images, style: "display: block" %>
+    <%= form.file_field :images, multiple: true %>
+  </div>
+
   <div>
     <%= form.submit %>
   </div>
