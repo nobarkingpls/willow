@@ -13,6 +13,7 @@ class MoviesController < ApplicationController
 
   # GET /movies/1 or /movies/1.json
   def show
+    @movie = Movie.find(params[:id])
   end
 
   # GET /movies/new
@@ -81,6 +82,15 @@ class MoviesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to movies_path, status: :see_other, notice: "Movie was successfully destroyed." }
       format.json { head :no_content }
+    end
+  end
+
+  # export xml
+  def export_xml
+    @movie = Movie.find(params[:id])  # Find the specific movie (same as in show)
+
+    respond_to do |format|
+      format.xml { render "export" }
     end
   end
 

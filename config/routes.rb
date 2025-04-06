@@ -6,7 +6,11 @@ Rails.application.routes.draw do
   resources :actors
   resources :rights
   resources :genres
-  resources :movies
+  resources :movies do
+    member do
+      get "export_xml", to: "movies#export_xml"
+    end
+  end
 
   get "feed.xml", to: "feeds#xml_feed", defaults: { format: "xml" }
 
