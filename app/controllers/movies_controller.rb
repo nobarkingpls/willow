@@ -90,7 +90,14 @@ class MoviesController < ApplicationController
     @movie = Movie.find(params[:id])  # Find the specific movie (same as in show)
 
     respond_to do |format|
+      # just display xml in browser
       format.xml { render "export" }
+
+      # this one makes it download. note the filename you can change!
+      # format.xml do
+      #   xml_string = render_to_string(template: "movies/export", formats: [ :xml ])
+      #   send_data xml_string, filename: "movie_#{@movie.title}.xml", type: "application/xml"
+      # end
     end
   end
 

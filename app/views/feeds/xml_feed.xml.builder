@@ -6,6 +6,9 @@ xml.feed do
     @movies.each do |movie|
       xml.movie do
         xml.title movie.title
+        movie.images.each do |image|
+          xml.image image.filename.to_s
+        end
         # xml.description movie.description
         # Add any other movie attributes you want to include
       end
