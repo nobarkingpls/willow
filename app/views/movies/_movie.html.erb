@@ -38,7 +38,7 @@
     <% end %>
   </p>
 
-  <%= link_to 'Export to XML', export_xml_movie_path(@movie, format: :xml) %>
-  
+  <%= link_to 'Export XML', export_xml_movie_path(@movie, format: :xml) %> |
+  <%= link_to 'Export YT XML', yt_xml_movie_path(@movie, format: :xml) %>
 
 </div>

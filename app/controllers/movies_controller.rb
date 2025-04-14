@@ -101,6 +101,22 @@ class MoviesController < ApplicationController
     end
   end
 
+  # youtube xml
+  def yt_xml
+    @movie = Movie.find(params[:id])  # Find the specific movie (same as in show)
+
+    respond_to do |format|
+      # just display xml in browser
+      format.xml { render "yt" }
+
+      # this one makes it download. note the filename you can change!
+      # format.xml do
+      #   xml_string = render_to_string(template: "movies/yt", formats: [ :xml ])
+      #   send_data xml_string, filename: "movie_#{@movie.title}.xml", type: "application/xml"
+      # end
+    end
+  end
+
   private
     def create_actors_movies(movie, actors)
       if actors.present?

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :movies do
     member do
       get "export_xml", to: "movies#export_xml"
+      get "yt_xml", to: "movies#yt_xml"
     end
   end
 
