@@ -5,8 +5,10 @@ add validation rules for everything
 add slim select or something like that and see if it can pass a comma seperated string of values to hash, and also display them back
 picture uploads - done for movies
 movie xml export - sort of done
+weekend - setup s3, add devise or some auth + api token
 zip picture and xml together
 check box to zip multiple together
+utc -> timezone adjuster for date time
 
 This README would normally document whatever steps are necessary to get the
 application up and running.

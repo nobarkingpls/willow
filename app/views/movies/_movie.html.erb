@@ -34,7 +34,7 @@
   <p>
     <strong>Images:</strong>
     <% movie.images.each do |image| %>
-      <%= link_to image_tag(image), image %>
+      <%= link_to image_tag(image.variant(resize_to_limit: [ 300, 300 ]).processed), image %>
     <% end %>
   </p>
 
