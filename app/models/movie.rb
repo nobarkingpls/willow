@@ -1,6 +1,4 @@
 class Movie < ApplicationRecord
-    has_many :seasons, dependent: :destroy
-
     has_many :genres_movies, dependent: :destroy
     has_many :genres, through: :genres_movies
     validates_associated :genres

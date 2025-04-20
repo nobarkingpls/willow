@@ -45,28 +45,28 @@ class MoviesController < ApplicationController
 
   # PATCH/PUT /movies/1 or /movies/1.json
   def update
+    # methods for handling these specific jobs
     create_actors_movies(@movie, params[:movie][:actors])
     create_genres_movies(@movie, params[:movie][:genres])
     create_countries_movies(@movie, params[:movie][:countries])
 
-    if params[:movie][:delete_images].present?
-      # Loop through the delete_images array, which contains the signed_id
-      params[:movie][:delete_images].each do |blob_id|
-        # Find the attachment using the signed_id
-        attachment = @movie.images.find_by(blob_id: blob_id)
+    # delete movie images
+    attachments_to_purge = []
 
-        if attachment
-          # Use the blob_id to purge the attachment
-          attachment.purge
-          Rails.logger.debug "Purged image with blob_id: #{attachment.blob_id}"
-        else
-          Rails.logger.debug "No attachment found for blob_id: #{blob_id}"
+    if params[:movie][:delete_images].present?
+      params[:movie][:delete_images].reject(&:blank?).each do |signed_id|
+        if (blob = ActiveStorage::Blob.find_signed(signed_id))
+          attachment = blob.attachments.find_by(record: @movie)
+          attachments_to_purge << attachment if attachment
         end
       end
     end
 
     respond_to do |format|
       if @movie.update(movie_params.except(:actors, :genres, :countries, :delete_images))
+        # Purge after successful update
+        attachments_to_purge.each(&:purge_later)
+
         format.html { redirect_to @movie, notice: "Movie was successfully updated." }
         format.json { render :show, status: :ok, location: @movie }
       else

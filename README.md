@@ -6,9 +6,11 @@ add slim select or something like that and see if it can pass a comma seperated 
 picture uploads - done for movies
 movie xml export - sort of done
 weekend - setup s3, add devise or some auth + api token
+s3 - 
 zip picture and xml together
 check box to zip multiple together
 utc -> timezone adjuster for date time
+add https://github.com/Paxa/fast_excel for excel exports
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
