@@ -1,5 +1,5 @@
 # Name of your application. Used to uniquely configure containers.
-service: nobarkingpls
+service: willow
 
 # Name of the container image.
 image: nobarkingpls/willow
