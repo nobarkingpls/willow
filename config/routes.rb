@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     end
   end
 
-  # root "movies#index"
+  root "movies#index"
 
   get "feed.xml", to: "feeds#xml_feed", defaults: { format: "xml" }
 
