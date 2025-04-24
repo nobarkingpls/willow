@@ -5,12 +5,17 @@ add validation rules for everything
 add slim select or something like that and see if it can pass a comma seperated string of values to hash, and also display them back
 picture uploads - done for movies
 movie xml export - sort of done
-weekend - setup s3, add devise or some auth + api token
-s3 - 
+weekend - setup s3, add devise or some auth + api token - done
+deploy! - done deployed using kamal and docker and digital ocean
 zip picture and xml together
 check box to zip multiple together
 utc -> timezone adjuster for date time
 add https://github.com/Paxa/fast_excel for excel exports
+
+to do!! check s3 functionality in production (added the url to bucket cors, if doesnt work try the ip)
+
+i ahve run kamal app stop, please run kamal app start to start again and start the docker container, im also going to turn off the digital ocean droplet server, which will need to be turned back on via do site :>
+
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
