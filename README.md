@@ -17,6 +17,20 @@ to do!! check s3 functionality in production (added the url to bucket cors, if d
 i have run kamal app stop, please run kamal app start to start again and start the docker container, im also going to turn off the digital ocean droplet server, which will need to be turned back on via do site :>
 
 
+add to movies:
+original release date
+flashing lights
+country of origin - use existing country model?
+new models for:
+change countries for territories?
+ratings
+reasons
+directors
+writers
+production company - worth doing a model for?
+
+
+
 This README would normally document whatever steps are necessary to get the
 application up and running.
 

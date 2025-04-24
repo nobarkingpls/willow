@@ -2,6 +2,8 @@
   Welcome <%= Current.user.email_address %>!
 </p>
 
+<%= button_to "Logout", session_path, method: :delete %>
+
 <p>
   The time is now: <%= Time.now %>
 </p>
@@ -17,3 +19,6 @@
 <%= link_to "Epsiodes", episodes_path %>
 <br>
 <%= link_to "Movies", movies_path %>
+<br>
+<br>
+<%= link_to "Catalog Feed", "/feed.xml" %>
