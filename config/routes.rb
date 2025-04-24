@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :territories
   resource :session
   resources :passwords, param: :token
   resources :episodes

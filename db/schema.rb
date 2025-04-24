@@ -10,10 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_18_165423) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_catalog.plpgsql"
-
+ActiveRecord::Schema[8.0].define(version: 2025_04_24_194917) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -115,6 +112,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_18_165423) do
     t.datetime "finish"
   end
 
+  create_table "movies_territories", force: :cascade do |t|
+    t.integer "movie_id", null: false
+    t.integer "territory_id", null: false
+    t.index ["movie_id", "territory_id"], name: "index_movies_territories_on_movie_id_and_territory_id"
+    t.index ["territory_id", "movie_id"], name: "index_movies_territories_on_territory_id_and_movie_id"
+  end
+
   create_table "seasons", force: :cascade do |t|
     t.integer "number"
     t.datetime "created_at", null: false
@@ -136,6 +140,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_18_165423) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "territories", force: :cascade do |t|
+    t.string "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "name"
   end
 
   create_table "users", force: :cascade do |t|

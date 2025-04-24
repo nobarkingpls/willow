@@ -28,10 +28,12 @@ class MoviesController < ApplicationController
 
   # POST /movies or /movies.json
   def create
-    @movie = Movie.new(movie_params.except(:actors, :genres, :countries))
+    @movie = Movie.new(movie_params.except(:actors, :genres, :countries, :territories))
     create_actors_movies(@movie, params[:movie][:actors])
     create_genres_movies(@movie, params[:movie][:genres])
     create_countries_movies(@movie, params[:movie][:countries])
+    create_movies_territories(@movie, params[:movie][:territories])
+
     respond_to do |format|
       if @movie.save
         format.html { redirect_to @movie, notice: "Movie was successfully created." }
@@ -49,6 +51,7 @@ class MoviesController < ApplicationController
     create_actors_movies(@movie, params[:movie][:actors])
     create_genres_movies(@movie, params[:movie][:genres])
     create_countries_movies(@movie, params[:movie][:countries])
+    create_movies_territories(@movie, params[:movie][:territories])
 
     # delete movie images
     attachments_to_purge = []
@@ -63,7 +66,7 @@ class MoviesController < ApplicationController
     end
 
     respond_to do |format|
-      if @movie.update(movie_params.except(:actors, :genres, :countries, :delete_images))
+      if @movie.update(movie_params.except(:actors, :genres, :countries, :territories, :delete_images))
         # Purge after successful update
         attachments_to_purge.each(&:purge_later)
 
@@ -181,6 +184,27 @@ class MoviesController < ApplicationController
       end
     end
 
+    def create_movies_territories(movie, territories)
+      if territories.present?
+        # Convert incoming territories string to array of names
+        new_territory_codes = territories.split(",").map(&:strip)
+        # Get existing territory names for this movie
+        existing_territory_codes = movie.territories.pluck(:code)
+
+        # Add new countries that aren't already associated
+        codes_to_add = new_territory_codes - existing_territory_codes
+        codes_to_add.each do |code|
+          movie.territories << Territory.find_by(code: code)
+        end
+
+        # Remove territories that are no longer in the list
+        codes_to_remove = existing_territory_codes - new_territory_codes
+        movie.territories.where(code: codes_to_remove).each do |code|
+          movie.territories.delete(code)
+        end
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_movie
       @movie = Movie.find(params.expect(:id))
@@ -188,6 +212,6 @@ class MoviesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def movie_params
-      params.expect(movie: [ :title, :actors, :genres, :countries, :start, :finish, images: [], delete_images: [] ])
+      params.expect(movie: [ :title, :actors, :genres, :countries, :territories, :start, :finish, images: [], delete_images: [] ])
     end
 end

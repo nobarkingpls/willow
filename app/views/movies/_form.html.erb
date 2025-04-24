@@ -28,8 +28,13 @@
   </div>
 
   <div>
-    <%= form.label :countries, 'Countries', style: "display: block" %>
+    <%= form.label :countries, 'Country(s) of origin', style: "display: block" %>
     <%= form.text_field :countries, value: movie.countries.map(&:code).join(",")  %>
+  </div>
+
+  <div>
+    <%= form.label :territories, 'Territories', style: "display: block" %>
+    <%= form.text_field :territories, value: movie.territories.map(&:code).join(",")  %>
   </div>
 
   <div>

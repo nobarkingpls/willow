@@ -11,5 +11,9 @@ class Movie < ApplicationRecord
     has_many :countries, through: :countries_movies
     validates_associated :countries
 
+    has_many :movies_territories, dependent: :destroy
+    has_many :territories, through: :movies_territories
+    validates_associated :territories
+
     has_many_attached :images
 end

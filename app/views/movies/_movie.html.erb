@@ -22,6 +22,11 @@
   </p>
 
   <p>
+    <strong>Territories:</strong><br>
+    <%= movie.territories.map { |territory| territory.code }.join(", ") %>
+  </p>
+
+  <p>
     <strong>Start:</strong>
     <%= movie.start %>
   </p>

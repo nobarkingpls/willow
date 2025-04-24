@@ -265,3 +265,9 @@ country_attributes = [
 country_attributes.each_entry do |attributes|
     Country.create(attributes)
 end
+
+territory_attributes = country_attributes
+
+territory_attributes.each_entry do |attributes|
+    Territory.create(attributes)
+end
