@@ -14,7 +14,7 @@ add https://github.com/Paxa/fast_excel for excel exports
 
 to do!! check s3 functionality in production (added the url to bucket cors, if doesnt work try the ip)
 
-i ahve run kamal app stop, please run kamal app start to start again and start the docker container, im also going to turn off the digital ocean droplet server, which will need to be turned back on via do site :>
+i have run kamal app stop, please run kamal app start to start again and start the docker container, im also going to turn off the digital ocean droplet server, which will need to be turned back on via do site :>
 
 
 This README would normally document whatever steps are necessary to get the

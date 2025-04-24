@@ -1,0 +1,19 @@
+<p>
+  Welcome <%= Current.user.email_address %>!
+</p>
+
+<p>
+  The time is now: <%= Time.now %>
+</p>
+
+<p>
+  Where would you like to go?
+</p>
+
+<%= link_to "Shows", shows_path %>
+<br>
+<%= link_to "Seasons", seasons_path %>
+<br>
+<%= link_to "Epsiodes", episodes_path %>
+<br>
+<%= link_to "Movies", movies_path %>
