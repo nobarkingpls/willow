@@ -1,12 +1,12 @@
 <p style="color: green"><%= notice %></p>
 
-<p>
-  Welcome <%= Current.user.email_address %>
-</p>
-
 <% content_for :title, "Movies" %>
 
 <h1>Movies</h1>
+
+<p>
+  Movie count: <%= @movies.count %>
+</p>
 
 <!-- <div id="movies">
   <% @movies.each do |movie| %>

@@ -20,14 +20,13 @@ i have run kamal app stop, please run kamal app start to start again and start t
 add to movies:
 original release date
 flashing lights
-country of origin - use existing country model?
+country of origin - use existing country model? - done
 new models for:
-change countries for territories?
-ratings
-reasons
+ratings, ad to seed file
+reasons, add to seed file
 directors
 writers
-production company - worth doing a model for?
+production company
 
 
 
