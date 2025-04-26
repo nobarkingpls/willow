@@ -16,4 +16,22 @@ class Movie < ApplicationRecord
     validates_associated :territories
 
     has_many_attached :images
+
+    def attach_image_with_custom_key(uploaded_file)
+        uploaded_file.tempfile.rewind
+
+        images.attach(
+            io: uploaded_file.tempfile,
+            filename: uploaded_file.original_filename,
+            content_type: uploaded_file.content_type,
+            key: custom_s3_key(uploaded_file.original_filename),
+            identify: false
+        )
+    end
+
+    private
+
+    def custom_s3_key(filename)
+        "#{Rails.env}/movies/test-folder/#{File.basename(filename, ".*")}-#{SecureRandom.uuid}#{File.extname(filename)}"
+    end
 end

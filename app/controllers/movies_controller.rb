@@ -28,14 +28,23 @@ class MoviesController < ApplicationController
 
   # POST /movies or /movies.json
   def create
-    @movie = Movie.new(movie_params.except(:actors, :genres, :countries, :territories))
+    @movie = Movie.new(movie_params.except(:actors, :genres, :countries, :territories, :images))
     create_actors_movies(@movie, params[:movie][:actors])
     create_genres_movies(@movie, params[:movie][:genres])
     create_countries_movies(@movie, params[:movie][:countries])
     create_movies_territories(@movie, params[:movie][:territories])
 
+    pp params[:movie][:images]
+
     respond_to do |format|
       if @movie.save
+
+        if params[:movie][:images].present?
+          params[:movie][:images].reject(&:blank?).each do |uploaded_file|
+            @movie.attach_image_with_custom_key(uploaded_file)
+          end
+        end
+
         format.html { redirect_to @movie, notice: "Movie was successfully created." }
         format.json { render :show, status: :created, location: @movie }
       else
