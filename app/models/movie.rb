@@ -32,6 +32,14 @@ class Movie < ApplicationRecord
     private
 
     def custom_s3_key(filename)
-        "#{Rails.env}/movies/test-folder/#{File.basename(filename, ".*")}-#{SecureRandom.uuid}#{File.extname(filename)}"
+        ext = File.extname(filename)
+        base = File.basename(filename, ext)
+        uuid = SecureRandom.uuid
+
+        if filename.include?("test")
+          "#{Rails.env}/movies/test-folder/#{base}-#{uuid}#{ext}"
+        elsif filename.include?("second")
+          "#{Rails.env}/movies/second-folder/#{base}-#{uuid}#{ext}"
+        end
     end
 end

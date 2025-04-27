@@ -50,9 +50,7 @@
   <% @movie.images.each_with_index do |image, index| %>
     <div>
       <%= form.hidden_field :images, multiple: true, direct_upload: true, value: image.blob.signed_id %>
-      <%= link_to image_tag(image), image %>
-      <%= form.check_box :delete_images, { multiple: true, id: "delete_image_#{index}" }, image.blob.signed_id, nil %>
-      <%= form.label :delete_images, "Delete this image", for: "delete_image_#{index}" %>
+      <%= image %>
     </div>
   <% end %>
 

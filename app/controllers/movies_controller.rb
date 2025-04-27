@@ -34,14 +34,16 @@ class MoviesController < ApplicationController
     create_countries_movies(@movie, params[:movie][:countries])
     create_movies_territories(@movie, params[:movie][:territories])
 
-    pp params[:movie][:images]
-
     respond_to do |format|
       if @movie.save
 
         if params[:movie][:images].present?
           params[:movie][:images].reject(&:blank?).each do |uploaded_file|
-            @movie.attach_image_with_custom_key(uploaded_file)
+            filename = uploaded_file.original_filename
+
+            if filename.include?("test") || filename.include?("second")
+              @movie.attach_image_with_custom_key(uploaded_file)
+            end
           end
         end
 
@@ -62,22 +64,35 @@ class MoviesController < ApplicationController
     create_countries_movies(@movie, params[:movie][:countries])
     create_movies_territories(@movie, params[:movie][:territories])
 
-    # delete movie images
-    attachments_to_purge = []
+    # handle image updates
+    if params[:movie][:images].present?
+      params[:movie][:images].reject(&:blank?).each do |uploaded_file|
+        # Check if uploaded_file is a file object or a string
+        if uploaded_file.respond_to?(:original_filename)
+          filename = uploaded_file.original_filename
+        else
+          filename = uploaded_file # Treat it as a path or string
+        end
 
-    if params[:movie][:delete_images].present?
-      params[:movie][:delete_images].reject(&:blank?).each do |signed_id|
-        if (blob = ActiveStorage::Blob.find_signed(signed_id))
-          attachment = blob.attachments.find_by(record: @movie)
-          attachments_to_purge << attachment if attachment
+        if filename.include?("test") || filename.include?("second")
+          # Remove existing attachment with matching pattern
+          @movie.images.each do |image|
+            existing_filename = image.filename.to_s
+            if existing_filename.include?("test") && filename.include?("test")
+              image.purge
+            elsif existing_filename.include?("second") && filename.include?("second")
+              image.purge
+            end
+          end
+
+          # Attach the new file
+          @movie.attach_image_with_custom_key(uploaded_file)
         end
       end
     end
 
     respond_to do |format|
-      if @movie.update(movie_params.except(:actors, :genres, :countries, :territories, :delete_images))
-        # Purge after successful update
-        attachments_to_purge.each(&:purge_later)
+      if @movie.update(movie_params.except(:actors, :genres, :countries, :territories, :images))
 
         format.html { redirect_to @movie, notice: "Movie was successfully updated." }
         format.json { render :show, status: :ok, location: @movie }
@@ -221,6 +236,6 @@ class MoviesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def movie_params
-      params.expect(movie: [ :title, :actors, :genres, :countries, :territories, :start, :finish, images: [], delete_images: [] ])
+      params.expect(movie: [ :title, :actors, :genres, :countries, :territories, :start, :finish, images: [] ])
     end
 end
