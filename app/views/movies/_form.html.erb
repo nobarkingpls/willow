@@ -17,6 +17,11 @@
   </div>
 
   <div>
+    <%= form.label :amazon_id_override, style: "display: block" %>
+    <%= form.text_field :amazon_id_override %>
+  </div>
+
+  <div>
     <%= form.label :genres, 'Genres', style: "display: block" %>
     <%#= form.select :genre_ids, options_for_select(Genre.all.pluck(:name, :id), movie.genres.pluck(:id)), { includes_hidden: false }, multiple: true  %>
     <%= form.text_field :genres, value: movie.genres.map(&:name).join(",")  %>

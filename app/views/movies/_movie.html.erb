@@ -4,6 +4,27 @@
   </p>
 
   <p>
+    <strong>Apple ID:</strong><br>
+    <%= movie.generate_apple_id(movie.title) %>
+  </p>
+
+  <p>
+    <strong>Amazon ID:</strong><br>
+    <% if movie.amazon_id_override.present? %>
+      <%= movie.amazon_id_override %>
+    <% else %>
+      <%= movie.generate_amazon_id(movie.title) %>
+    <% end %>
+</p>
+
+  </p>
+
+  <p>
+    <strong>Amazon ID Override:</strong><br>
+    <%= movie.amazon_id_override %>
+  </p>
+
+  <p>
     <strong>Genres:</strong><br>
     <%= movie.genres.map { |genre| genre.name }.join(", ") %>
     <%# movie.genres.each do |genre| %>

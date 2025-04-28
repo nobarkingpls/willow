@@ -29,6 +29,14 @@ class Movie < ApplicationRecord
         )
     end
 
+    def generate_apple_id(title)
+        title.split.map(&:capitalize).join(" ").delete("^a-zA-Z0-9")
+    end
+
+    def generate_amazon_id(title)
+        title.split.map(&:capitalize).join(" ").delete("^a-zA-Z0-9") << "_Movie"
+    end
+
     private
 
     def custom_s3_key(filename)

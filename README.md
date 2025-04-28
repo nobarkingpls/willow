@@ -4,10 +4,10 @@ todos:
 add validation rules for everything
 add slim select or something like that and see if it can pass a comma seperated string of values to hash, and also display them back
 picture uploads - done for movies
-  sort pictures into folders like heroku atm
+  sort pictures into folders like heroku atm - done!
 movie xml export - sort of done
 weekend - setup s3, add devise or some auth + api token - done
-deploy! - done deployed using kamal and docker and digital ocean
+deploy! - done
 zip picture and xml together
 check box to zip multiple together
 utc -> timezone adjuster for date time

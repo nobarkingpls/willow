@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_24_194917) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_28_230719) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -110,6 +110,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_24_194917) do
     t.datetime "updated_at", null: false
     t.datetime "start"
     t.datetime "finish"
+    t.string "amazon_id_override"
   end
 
   create_table "movies_territories", force: :cascade do |t|
