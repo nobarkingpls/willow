@@ -10,15 +10,9 @@
 
   <p>
     <strong>Amazon ID:</strong><br>
-    <% if movie.amazon_id_override.present? %>
-      <%= movie.amazon_id_override %>
-    <% else %>
-      <%= movie.generate_amazon_id(movie.title) %>
-    <% end %>
-</p>
-
+      <%= movie.generate_amazon_id(movie.title, movie.amazon_id_override) %>
   </p>
-
+  
   <p>
     <strong>Amazon ID Override:</strong><br>
     <%= movie.amazon_id_override %>

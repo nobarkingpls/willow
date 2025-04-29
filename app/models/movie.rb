@@ -33,7 +33,9 @@ class Movie < ApplicationRecord
         title.split.map(&:capitalize).join(" ").delete("^a-zA-Z0-9")
     end
 
-    def generate_amazon_id(title)
+    def generate_amazon_id(title, amazon_id_override = nil)
+        return amazon_id_override if amazon_id_override.present?
+
         title.split.map(&:capitalize).join(" ").delete("^a-zA-Z0-9") << "_Movie"
     end
 
