@@ -144,6 +144,15 @@ class MoviesController < ApplicationController
     end
   end
 
+  def prepare_bundle
+    @movie = Movie.find(params[:id])
+    GenerateZipBundleJob.perform_later(@movie)
+
+    respond_to do |format|
+      format.html { redirect_to @movie, notice: "Your download is being prepared. Check back shortly!" }
+    end
+  end
+
   private
     def create_actors_movies(movie, actors)
       if actors.present?

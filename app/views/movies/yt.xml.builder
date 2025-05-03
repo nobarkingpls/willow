@@ -1,16 +1,5 @@
 xml.instruct!
 
-# xml.movie do
-#   xml.title @movie.title
-#   xml.genres do
-#     @movie.genres.each do |genre.name|
-#       xml.genre genre.name
-#     end
-#   end
-# end
-
-# xml = Builder::XmlMarkup.new(:indent => 2)
-
 xml.tag!("mdmec:CoreMetadata",
   "xmlns:md" => "http://www.movielabs.com/schema/md/v2.7/md",
   "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",

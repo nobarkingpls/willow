@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     member do
       get "export_xml", to: "movies#export_xml"
       get "yt_xml", to: "movies#yt_xml"
+      post "prepare_bundle", to: "movies#prepare_bundle", as: :prepare_bundle
     end
   end
 
