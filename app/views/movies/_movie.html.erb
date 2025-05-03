@@ -12,7 +12,7 @@
     <strong>Amazon ID:</strong><br>
       <%= movie.generate_amazon_id(movie.title, movie.amazon_id_override) %>
   </p>
-  
+
   <p>
     <strong>Amazon ID Override:</strong><br>
     <%= movie.amazon_id_override %>
@@ -52,9 +52,12 @@
   </p>
 
   <p>
-    <strong>Images:</strong>
+    <strong>Images:</strong><br>
     <% movie.images.each do |image| %>
-      <%= image %>
+      <%= image_tag image.variant(resize_to_limit: [100, 100]) %>
+      <br>
+      <%= link_to image %>
+      <br>
     <% end %>
   </p>
 

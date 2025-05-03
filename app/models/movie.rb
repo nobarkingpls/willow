@@ -17,6 +17,7 @@ class Movie < ApplicationRecord
 
     has_many_attached :images
 
+    # image logic see below also
     def attach_image_with_custom_key(uploaded_file)
         uploaded_file.tempfile.rewind
 
@@ -33,6 +34,7 @@ class Movie < ApplicationRecord
         title.split.map(&:capitalize).join(" ").delete("^a-zA-Z0-9")
     end
 
+    # method for amazon id and override
     def generate_amazon_id(title, amazon_id_override = nil)
         return amazon_id_override if amazon_id_override.present?
 
@@ -41,6 +43,7 @@ class Movie < ApplicationRecord
 
     private
 
+    # direct image to s3 folder
     def custom_s3_key(filename)
         ext = File.extname(filename)
         base = File.basename(filename, ext)
