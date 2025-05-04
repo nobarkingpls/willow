@@ -1,0 +1,10 @@
+<%= turbo_stream.replace "search_results" do %>
+  <%= turbo_frame_tag "search_results" do %>
+    <% if @searched_movie.present? %>
+      <h2>Search Results</h2>
+      <div>
+        <%= render 'select' %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

@@ -3,11 +3,15 @@ class MoviesController < ApplicationController
 
   # GET /movies or /movies.json
   def index
+    if params[:movie_id].present?
+      @searched_movie = Movie.find_by(id: params[:movie_id])
+    end
+
     @movies = Movie.all
-    begin
-      @searched_movie = Movie.find(params[:movie_id])
-    rescue
-      nil
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream
     end
   end
 
@@ -149,6 +153,7 @@ class MoviesController < ApplicationController
     GenerateZipBundleJob.perform_later(@movie)
 
     respond_to do |format|
+      format.turbo_stream
       format.html { redirect_to @movie, notice: "Your download is being prepared. Check back shortly!" }
     end
   end

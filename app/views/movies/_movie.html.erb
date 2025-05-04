@@ -4,22 +4,17 @@
   </p>
 
   <p>
-    <strong>Apple ID:</strong><br>
+    <strong>Apple ID:</strong>
     <%= movie.generate_apple_id(movie.title) %>
   </p>
 
   <p>
-    <strong>Amazon ID:</strong><br>
+    <strong>Amazon ID:</strong>
       <%= movie.generate_amazon_id(movie.title, movie.amazon_id_override) %>
   </p>
 
   <p>
-    <strong>Amazon ID Override:</strong><br>
-    <%= movie.amazon_id_override %>
-  </p>
-
-  <p>
-    <strong>Genres:</strong><br>
+    <strong>Genres:</strong>
     <%= movie.genres.map { |genre| genre.name }.join(", ") %>
     <%# movie.genres.each do |genre| %>
       <%#= render genre %>
@@ -27,17 +22,17 @@
   </p>
 
   <p>
-    <strong>Actors:</strong><br>
+    <strong>Actors:</strong>
     <%= movie.actors.map { |actor| actor.name }.join(", ") %>
   </p>
 
   <p>
-    <strong>Country(s) of origin:</strong><br>
+    <strong>Country(s) of origin:</strong>
     <%= movie.countries.map { |country| country.code }.join(", ") %>
   </p>
 
   <p>
-    <strong>Territories:</strong><br>
+    <strong>Territories:</strong>
     <%= movie.territories.map { |territory| territory.code }.join(", ") %>
   </p>
 
@@ -52,6 +47,11 @@
   </p>
 
   <p>
+    <strong>Amazon ID Override:</strong>
+    <%= movie.amazon_id_override %>
+  </p>
+
+  <p>
     <strong>Images:</strong><br>
     <% movie.images.each do |image| %>
       <%= image_tag image.variant(resize_to_limit: [100, 100]) %>
@@ -62,19 +62,15 @@
   </p>
 
   <p>
+    <strong>Xmls:</strong><br>
     <%= link_to 'Export XML', export_xml_movie_path(@movie, format: :xml) %> |
     <%= link_to 'Export YT XML', yt_xml_movie_path(@movie, format: :xml) %>
   </p>
 
+  <%= turbo_stream_from "zip_bundle_#{@movie.id}" %>
+
+  <%= render "zip_bundle_section", movie: @movie %>
+
   <br>
-
-  <%= button_to "Prepare Download Bundle",
-              prepare_bundle_movie_path(@movie),
-              method: :post,
-              data: { turbo: false } %>
-
-  <% if movie.zip_bundle.attached? %>
-    <%= link_to 'Download Zip', rails_blob_path(movie.zip_bundle, disposition: "attachment") %>
-  <% end %>
 
 </div>

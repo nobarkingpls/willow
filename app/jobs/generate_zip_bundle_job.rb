@@ -33,6 +33,14 @@ class GenerateZipBundleJob < ApplicationJob
         content_type: "application/zip"
       )
     end
+
+    # Broadcast a Turbo Stream update
+    Turbo::StreamsChannel.broadcast_replace_to(
+      "zip_bundle_#{movie.id}",
+      target: "zip_bundle_section",
+      partial: "movies/zip_bundle_section",
+      locals: { movie: movie }
+    )
   end
 
   private

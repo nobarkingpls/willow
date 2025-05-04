@@ -27,13 +27,14 @@
 
 <br>
 
-<% if @searched_movie.present? %>
-
-  <h2>Search Results</h2>
-  <div>
-    <%= render 'select' %>
-  </div>
-
+<%= turbo_frame_tag "search_results" do %>
+  <% if @searched_movie.present? %>
+    <h2>Search Results</h2>
+    <div>
+      <%= render 'select' %>
+    </div>
+  <% end %>
 <% end %>
+
 
 <%= link_to "New movie", new_movie_path %>
