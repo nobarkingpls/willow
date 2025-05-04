@@ -16,8 +16,11 @@ class GenerateZipBundleJob < ApplicationJob
 
         # Add images
         movie.images.each do |image|
-          zip.put_next_entry(image.filename.to_s)
-          zip.write image.download
+          # only include image if it has second in the filename
+          if image.filename.to_s.include? "second"
+            zip.put_next_entry(image.filename.to_s)
+            zip.write image.download
+          end
         end
       end
 
