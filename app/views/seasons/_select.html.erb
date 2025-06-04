@@ -18,9 +18,13 @@
                         <td><%= season.show.title %></td>
                         <td><%= season.number %></td>
 
-                        <td><%= link_to "Show", season %></td>
-                        <td><%= link_to "Edit", edit_season_path(season) %></td>
-                        <td><%= link_to "Destroy", season, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></td>
+                        <td><%= link_to "Show", season, data: { turbo: false } %></td>
+                        <td><%= link_to "Edit", edit_season_path(season), data: { turbo: false } %></td>
+                        <td>
+                            <%= form_with model: season, method: :delete, data: { turbo: false } do %>
+                                <%= submit_tag "Destroy" %>
+                            <% end %>
+                        </td>
                 </tr>
                 <% end %>
             </tbody>

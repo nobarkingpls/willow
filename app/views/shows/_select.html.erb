@@ -15,9 +15,13 @@
                         <td><%= @searched_show.id %></td>
                         <td><%= @searched_show.title %></td>
 
-                        <td><%= link_to "Show", @searched_show %></td>
-                        <td><%= link_to "Edit", edit_show_path(@searched_show) %></td>
-                        <td><%= link_to "Destroy", @searched_show, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></td>
+                        <td><%= link_to "Show", @searched_show, data: { turbo: false } %></td>
+                        <td><%= link_to "Edit", edit_show_path(@searched_show), data: { turbo: false } %></td>
+                        <td>
+                            <%= form_with model: @searched_show, method: :delete, data: { turbo: false } do %>
+                                <%= submit_tag "Destroy" %>
+                            <% end %>
+                        </td>
                 </tr>
             
             </tbody>

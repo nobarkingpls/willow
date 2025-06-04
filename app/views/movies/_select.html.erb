@@ -12,9 +12,13 @@
         <tr>
             <td><%= @searched_movie.title %></td>
             <td><%= @searched_movie.id %></td>
-            <td><%= link_to "Show", @searched_movie %></td>
-            <td><%= link_to "Edit", edit_movie_path(@searched_movie) %></td>
-            <td><%= link_to "Destroy", @searched_movie, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></td>
+            <td><%= link_to "Show", @searched_movie, data: { turbo: false } %></td>
+            <td><%= link_to "Edit", edit_movie_path(@searched_movie), data: { turbo: false } %></td>
+            <td>
+                <%= form_with model: @searched_movie, method: :delete, data: { turbo: false } do %>
+                    <%= submit_tag "Destroy" %>
+                <% end %>
+            </td>
         </tr>
     </tbody>
     </table>

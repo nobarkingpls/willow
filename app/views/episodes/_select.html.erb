@@ -21,9 +21,14 @@
                         <td><%= episode.season.number %></td>
                         <td><%= episode.number %></td>
 
-                        <td><%= link_to "Show", episode %></td>
-                        <td><%= link_to "Edit", edit_episode_path(episode) %></td>
-                        <td><%= link_to "Destroy", episode, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></td>
+                        <td><%= link_to "Show", episode, data: { turbo: false } %></td>
+                        <td><%= link_to "Edit", edit_episode_path(episode), data: { turbo: false } %></td>
+                        <td>
+                            <%= form_with model: episode, method: :delete, data: { turbo: false } do %>
+                                <%= submit_tag "Destroy" %>
+                            <% end %>
+                        </td>
+
                 </tr>
                 <% end %>
             </tbody>
