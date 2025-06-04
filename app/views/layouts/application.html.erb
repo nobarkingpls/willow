@@ -26,7 +26,15 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
+  <header>
+  </header>
+
   <body>
+    <nav>
+      <%= link_to "Home", root_path, method: :delete if authenticated?  %>
+      <%= button_to "Log out", session_path, method: :delete if authenticated? %>
+    </nav>
+
     <%= yield %>
   </body>
 </html>
