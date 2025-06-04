@@ -38,12 +38,13 @@
 
   <p>
     <strong>Start:</strong>
-    <%= movie.start %>
+    <%#= movie.start %>
+    <%= movie.start.in_time_zone.strftime("%Y-%m-%d %H:%M:%S %:z") %>
   </p>
 
   <p>
     <strong>Finish:</strong>
-    <%= movie.finish %>
+    <%= movie.finish.in_time_zone.strftime("%Y-%m-%d %H:%M:%S %:z") %>
   </p>
 
   <p>

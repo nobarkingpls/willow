@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   root "welcome#index"
 
   get "feed.xml", to: "feeds#xml_feed", defaults: { format: "xml" }
+  get "content_feed.xml", to: "feeds#content_feed", defaults: { format: "xml" }
+  get "avail_feed.xml", to: "feeds#avail_feed", defaults: { format: "xml" }
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

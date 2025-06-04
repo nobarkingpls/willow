@@ -27,12 +27,12 @@
 
   <p>
     <strong>Start:</strong>
-    <%= episode.start %>
+    <%= episode.start.in_time_zone.strftime("%Y-%m-%d %H:%M:%S %:z") %>
   </p>
 
   <p>
     <strong>Finish:</strong>
-    <%= episode.finish %>
+    <%= episode.finish.in_time_zone.strftime("%Y-%m-%d %H:%M:%S %:z") %>
   </p>
 
 </div>
