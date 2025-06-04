@@ -20,13 +20,13 @@
 
 <br>
 
-<% if @searched_show.present? %>
-
-  <h2>Search Results</h2>
-  <div>
+<%= turbo_frame_tag "search_results" do %>
+  <% if @searched_show.present? %>
+    <h2>Search Results</h2>
+    <div>
       <%= render 'select' %>
-  </div>
-  
+    </div>
+  <% end %>
 <% end %>
 
 <%= link_to "New show", new_show_path %>

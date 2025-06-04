@@ -42,13 +42,13 @@
 
 <br>
 
+<%= turbo_frame_tag "search_results" do %>
   <% if @searched_episodes.present? %>
-
     <h2>Search Results</h2>
     <div>
-        <%= render 'select' %>
+      <%= render 'select' %>
     </div>
-    
   <% end %>
+<% end %>
 
 <%= link_to "New episode", new_episode_path %>
