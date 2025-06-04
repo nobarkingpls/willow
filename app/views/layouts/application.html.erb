@@ -31,8 +31,16 @@
 
   <body>
     <nav>
-      <%= link_to "Home", root_path, method: :delete if authenticated?  %>
-      <%= button_to "Log out", session_path, method: :delete if authenticated? %>
+      <div class="nav-left">
+        <%= link_to "Home", root_path if authenticated? %>
+        <%= link_to "Shows", shows_path if authenticated? %>
+        <%= link_to "Seasons", seasons_path if authenticated? %>
+        <%= link_to "Episodes", episodes_path if authenticated? %>
+        <%= link_to "Movies", movies_path if authenticated? %>
+      </div>
+      <div class="nav-right">
+        <%= button_to "Log out", session_path, method: :delete if authenticated? %>
+      </div>
     </nav>
 
     <%= yield %>

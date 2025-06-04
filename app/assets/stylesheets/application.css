@@ -17,3 +17,18 @@ border: 1px solid blue;
 strong {
     color: #8a8a8a;
 }
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .nav-left a {
+    margin-right: 1rem;
+  }
+  
+  .nav-right form {
+    display: inline;
+    margin: 0;
+  }
