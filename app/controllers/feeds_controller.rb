@@ -19,7 +19,7 @@ class FeedsController < ApplicationController
 
   def avail_feed
     @movies = Movie.all
-    @shows = Show.includes(seasons: :episodes).all
+    @episodes = Episode.where.not(start: nil, finish: nil)
 
     respond_to do |format|
       format.xml

@@ -17,34 +17,14 @@ xml.feed do
     end
   end
 
-  # Add shows, seasons, and episodes to the XML feed
-  xml.shows do
-    @shows.each do |show|
-      xml.show do
-        xml.title show.title
-        # xml.description show.description
-
-        xml.seasons do
-          show.seasons.each do |season|
-            xml.season do
-              # xml.title season.title
-              xml.number season.number
-
-              xml.episodes do
-                season.episodes.each do |episode|
-                  xml.episode do
-                    xml.title episode.title
-                    xml.number episode.number
-                    # xml.description episode.description
-                    xml.start episode.start.in_time_zone.strftime("%Y-%m-%d %H:%M:%S %:z")
-                    xml.finish episode.finish.in_time_zone.strftime("%Y-%m-%d %H:%M:%S %:z")
-                    # Add other episode attributes if needed
-                  end
-                end
-              end
-            end
-          end
-        end
+  xml.episodes do
+    @episodes.each do |episode|
+      xml.episode do
+        xml.title episode.title
+        xml.start episode.start.in_time_zone.strftime("%Y-%m-%d %H:%M:%S %:z")
+        xml.finish episode.finish.in_time_zone.strftime("%Y-%m-%d %H:%M:%S %:z")
+        # xml.description movie.description
+        # Add any other movie attributes you want to include
       end
     end
   end
