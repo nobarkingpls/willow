@@ -1,0 +1,12 @@
+<%= turbo_frame_tag "zip_bundle_section" do %>
+  <p>
+    <strong>Zips:</strong>
+    <%= button_to "Prepare Zip Bundle",
+                  prepare_bundle_season_path(season),
+                  method: :post %>
+
+    <% if season.zip_bundle.attached? %>
+      <%= link_to 'Download Zip', rails_blob_path(season.zip_bundle, disposition: "attachment") %>
+    <% end %>
+  </p>
+<% end %>

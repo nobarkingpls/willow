@@ -77,6 +77,48 @@ class EpisodesController < ApplicationController
     end
   end
 
+  # export xml
+  def export_xml
+    @episode = Episode.find(params[:id])  # Find the specific episode (same as in show)
+
+    respond_to do |format|
+      # just display xml in browser
+      format.xml { render "export" }
+
+      # this one makes it download. note the filename you can change!
+      # format.xml do
+      #   xml_string = render_to_string(template: "episodes/export", formats: [ :xml ])
+      #   send_data xml_string, filename: "episode_#{@episode.title}.xml", type: "application/xml"
+      # end
+    end
+  end
+
+  # youtube xml
+  def yt_xml
+    @episode = Episode.find(params[:id])  # Find the specific episode (same as in show)
+
+    respond_to do |format|
+      # just display xml in browser
+      format.xml { render "yt" }
+
+      # this one makes it download. note the filename you can change!
+      # format.xml do
+      #   xml_string = render_to_string(template: "episode/yt", formats: [ :xml ])
+      #   send_data xml_string, filename: "episode_#{@episode.title}.xml", type: "application/xml"
+      # end
+    end
+  end
+
+  def prepare_bundle
+    @episode = Episode.find(params[:id])
+    GenerateZipBundleJobEpisode.perform_later(@episode)
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to @episode, notice: "Your download is being prepared. Check back shortly!" }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_episode
