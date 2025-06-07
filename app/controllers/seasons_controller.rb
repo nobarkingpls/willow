@@ -101,10 +101,10 @@ class SeasonsController < ApplicationController
     @season = Season.find(params[:id])
     GenerateZipBundleJobSeason.perform_later(@season)
 
-    episodes = Episode.where(season_id: @season.id)
-    episodes.each do |episode|
-      GenerateZipBundleJobEpisode.perform_later(episode)
-    end
+    # episodes = Episode.where(season_id: @season.id)
+    # episodes.each do |episode|
+    #   GenerateZipBundleJobEpisode.perform_later(episode)
+    # end
 
     respond_to do |format|
       format.turbo_stream

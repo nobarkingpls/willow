@@ -16,7 +16,13 @@ Rails.application.routes.draw do
       post "prepare_bundle", to: "seasons#prepare_bundle", as: :prepare_bundle
     end
   end
-  resources :shows
+  resources :shows do
+    member do
+      get "export_xml", to: "shows#export_xml"
+      get "yt_xml", to: "shows#yt_xml"
+      post "prepare_bundle", to: "shows#prepare_bundle", as: :prepare_bundle
+    end
+  end
   resources :countries
   resources :actors
   resources :rights

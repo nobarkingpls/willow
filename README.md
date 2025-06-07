@@ -17,6 +17,9 @@ to do!! check s3 functionality in production (added the url to bucket cors, if d
 
 i have run kamal app stop, please run kamal app start to start again and start the docker container, im also going to turn off the digital ocean droplet server, which will need to be turned back on via do site :>
 
+for zips add series zip which includes seasons and episodes
+try out images for episodes and seasons and including ep imgs int he season zip
+
 
 add to movies:
 original release date
