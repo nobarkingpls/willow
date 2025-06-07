@@ -39,11 +39,22 @@ class EpisodesController < ApplicationController
 
   # POST /episodes or /episodes.json
   def create
-    @episode = Episode.new(episode_params.except(:countries))
+    @episode = Episode.new(episode_params.except(:countries, :images))
     create_countries_episodes(@episode, params[:episode][:countries])
 
     respond_to do |format|
       if @episode.save
+
+        if params[:episode][:images].present?
+          params[:episode][:images].reject(&:blank?).each do |uploaded_file|
+            filename = uploaded_file.original_filename
+
+            if filename.include?("first")
+              @episode.attach_image_with_custom_key(uploaded_file)
+            end
+          end
+        end
+
         format.html { redirect_to @episode, notice: "Episode was successfully created." }
         format.json { render :show, status: :created, location: @episode }
       else
@@ -56,6 +67,32 @@ class EpisodesController < ApplicationController
   # PATCH/PUT /episodes/1 or /episodes/1.json
   def update
     create_countries_episodes(@episode, params[:episode][:countries])
+
+    # handle image updates
+    if params[:episode][:images].present?
+      params[:episode][:images].reject(&:blank?).each do |uploaded_file|
+        # Check if uploaded_file is a file object or a string
+        if uploaded_file.respond_to?(:original_filename)
+          filename = uploaded_file.original_filename
+        else
+          filename = uploaded_file # Treat it as a path or string
+        end
+
+        if filename.include?("first")
+          # Remove existing attachment with matching pattern
+          @episode.images.each do |image|
+            existing_filename = image.filename.to_s
+            if existing_filename.include?("first") && filename.include?("first")
+              image.purge
+            end
+          end
+
+          # Attach the new file
+          @episode.attach_image_with_custom_key(uploaded_file)
+        end
+      end
+    end
+
     respond_to do |format|
       if @episode.update(episode_params.except(:countries))
         format.html { redirect_to @episode, notice: "Episode was successfully updated." }

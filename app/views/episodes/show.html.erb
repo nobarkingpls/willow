@@ -4,7 +4,7 @@
 
 <div>
   <%= link_to "Edit this episode", edit_episode_path(@episode) %> |
-  <%= link_to "Back to episodes", episodes_path %>
-
-  <%= button_to "Destroy this episode", @episode, method: :delete %>
+  <%= link_to "Back to episodes", episodes_path %> 
+  <br><br>
+  <%= button_to "Delete this episode", episode_path(@episode), method: :delete, data: { turbo_confirm: "Are you sure?" }, data: { turbo: false } %>
 </div>

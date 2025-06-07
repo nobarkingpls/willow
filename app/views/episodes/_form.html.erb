@@ -42,6 +42,21 @@
   </div>
 
   <div>
+    <%= form.label :images, style: "display: block" %>
+    <%= form.file_field :images, multiple: true %>
+  </div>
+
+  <% @episode.images.each_with_index do |image, index| %>
+    <div>
+      <%= form.hidden_field :images, multiple: true, value: image.blob.signed_id %>
+      <%= image_tag image.variant(resize_to_limit: [100, 100]) %>
+      <br>
+      <%= link_to image %>
+      <br>
+    </div>
+  <% end %>
+
+  <div>
     <%= form.submit %>
   </div>
 <% end %>

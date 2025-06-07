@@ -15,13 +15,13 @@ class GenerateZipBundleJobEpisode < ApplicationJob
         zip.write generate_xml_for(episode)
 
         # Add images
-        # episode.images.each do |image|
-        #   # only include image if it has second in the filename
-        #   if image.filename.to_s.include? "second"
-        #     zip.put_next_entry(image.filename.to_s)
-        #     zip.write image.download
-        #   end
-        # end
+        episode.images.each do |image|
+          # only include image if it has second in the filename
+          if image.filename.to_s.include? "first"
+            zip.put_next_entry(image.filename.to_s)
+            zip.write image.download
+          end
+        end
       end
 
       tempfile.rewind
