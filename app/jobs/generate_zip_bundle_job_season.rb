@@ -22,7 +22,6 @@ class GenerateZipBundleJobSeason < ApplicationJob
 
         # Add episode data
         # not sure if this image thing will work but hey here for now
-        # season.episodes.includes(:images_attachments, :images_blob).each do |episode|
         season.episodes.each do |episode|
           # Add episode XML
           zip.put_next_entry("episodes/#{episode.id}/data.xml")

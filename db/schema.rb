@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_28_230719) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_08_205055) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -82,6 +82,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_28_230719) do
     t.integer "season_id"
     t.integer "number"
     t.index ["season_id"], name: "index_episodes_on_season_id"
+  end
+
+  create_table "episodes_territories", force: :cascade do |t|
+    t.integer "episode_id", null: false
+    t.integer "territory_id", null: false
+    t.index ["episode_id", "territory_id"], name: "index_episodes_territories_on_episode_id_and_territory_id"
+    t.index ["territory_id", "episode_id"], name: "index_episodes_territories_on_territory_id_and_episode_id"
   end
 
   create_table "genres", force: :cascade do |t|

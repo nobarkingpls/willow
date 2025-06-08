@@ -39,8 +39,9 @@ class EpisodesController < ApplicationController
 
   # POST /episodes or /episodes.json
   def create
-    @episode = Episode.new(episode_params.except(:countries, :images))
+    @episode = Episode.new(episode_params.except(:countries, :territories, :images))
     create_countries_episodes(@episode, params[:episode][:countries])
+    create_episodes_territories(@episode, params[:episode][:territories])
 
     respond_to do |format|
       if @episode.save
@@ -67,6 +68,7 @@ class EpisodesController < ApplicationController
   # PATCH/PUT /episodes/1 or /episodes/1.json
   def update
     create_countries_episodes(@episode, params[:episode][:countries])
+    create_episodes_territories(@episode, params[:episode][:territories])
 
     # handle image updates
     if params[:episode][:images].present?
@@ -94,7 +96,7 @@ class EpisodesController < ApplicationController
     end
 
     respond_to do |format|
-      if @episode.update(episode_params.except(:countries))
+      if @episode.update(episode_params.except(:countries, :territories))
         format.html { redirect_to @episode, notice: "Episode was successfully updated." }
         format.json { render :show, status: :ok, location: @episode }
       else
@@ -183,8 +185,29 @@ class EpisodesController < ApplicationController
       end
     end
 
+    def create_episodes_territories(episode, territories)
+      if territories.present?
+        # Convert incoming territories string to array of names
+        new_territory_codes = territories.split(",").map(&:strip)
+        # Get existing territory names for this movie
+        existing_territory_codes = episode.territories.pluck(:code)
+
+        # Add new countries that aren't already associated
+        codes_to_add = new_territory_codes - existing_territory_codes
+        codes_to_add.each do |code|
+          episode.territories << Territory.find_by(code: code)
+        end
+
+        # Remove territories that are no longer in the list
+        codes_to_remove = existing_territory_codes - new_territory_codes
+        episode.territories.where(code: codes_to_remove).each do |code|
+          episode.territories.delete(code)
+        end
+      end
+    end
+
     # Only allow a list of trusted parameters through.
     def episode_params
-      params.expect(episode: [ :title, :start, :finish, :season_id, :number, :countries ])
+      params.expect(episode: [ :title, :start, :finish, :season_id, :number, :countries, :territories ])
     end
 end

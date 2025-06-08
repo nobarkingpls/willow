@@ -32,6 +32,11 @@
   </div>
 
   <div>
+    <%= form.label :territories, 'Territories', style: "display: block" %>
+    <%= form.text_field :territories, value: episode.territories.map(&:code).join(",")  %>
+  </div>
+
+  <div>
     <%= form.label :start, style: "display: block" %>
     <%= form.datetime_field :start %>
   </div>

@@ -5,6 +5,10 @@ class Episode < ApplicationRecord
   has_many :countries, through: :countries_episodes
   validates_associated :countries
 
+  has_many :episodes_territories, dependent: :destroy
+  has_many :territories, through: :episodes_territories
+  validates_associated :territories
+
   validates :season_id, presence: true
   validates :number, presence: true
 

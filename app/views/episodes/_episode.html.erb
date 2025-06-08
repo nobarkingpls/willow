@@ -21,8 +21,13 @@
   </p>
 
   <p>
-    <strong>Countries:</strong><br>
+    <strong>Country(s) of origin:</strong><br>
     <%= episode.countries.map { |country| country.code }.join(", ") %>
+  </p>
+
+  <p>
+    <strong>Territories:</strong>
+    <%= episode.territories.map { |territory| territory.code }.join(", ") %>
   </p>
 
   <p>
