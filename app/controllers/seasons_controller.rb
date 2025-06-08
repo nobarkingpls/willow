@@ -29,10 +29,21 @@ class SeasonsController < ApplicationController
 
   # POST /seasons or /seasons.json
   def create
-    @season = Season.new(season_params)
+    @season = Season.new(season_params.except(:images))
 
     respond_to do |format|
       if @season.save
+
+        if params[:season][:images].present?
+          params[:season][:images].reject(&:blank?).each do |uploaded_file|
+            filename = uploaded_file.original_filename
+
+            if filename.include?("first") || filename.include?("second")
+              @season.attach_image_with_custom_key(uploaded_file)
+            end
+          end
+        end
+
         format.html { redirect_to @season, notice: "Season was successfully created." }
         format.json { render :show, status: :created, location: @season }
       else
@@ -44,6 +55,33 @@ class SeasonsController < ApplicationController
 
   # PATCH/PUT /seasons/1 or /seasons/1.json
   def update
+    # handle image updates
+    if params[:season][:images].present?
+      params[:season][:images].reject(&:blank?).each do |uploaded_file|
+        # Check if uploaded_file is a file object or a string
+        if uploaded_file.respond_to?(:original_filename)
+          filename = uploaded_file.original_filename
+        else
+          filename = uploaded_file # Treat it as a path or string
+        end
+
+        if filename.include?("first") || filename.include?("second")
+          # Remove existing attachment with matching pattern
+          @season.images.each do |image|
+            existing_filename = image.filename.to_s
+            if existing_filename.include?("first") && filename.include?("first")
+              image.purge
+            elsif existing_filename.include?("second") && filename.include?("second")
+              image.purge
+            end
+          end
+
+          # Attach the new file
+          @season.attach_image_with_custom_key(uploaded_file)
+        end
+      end
+    end
+
     respond_to do |format|
       if @season.update(season_params)
         format.html { redirect_to @season, notice: "Season was successfully updated." }
