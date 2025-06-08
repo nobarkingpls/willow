@@ -14,6 +14,16 @@
   </p>
 
   <p>
+    <strong>Images:</strong><br>
+    <% show.images.each do |image| %>
+      <%= image_tag image.variant(resize_to_limit: [100, 100]) %>
+      <br>
+      <%= link_to image %>
+      <br>
+    <% end %>
+  </p>
+
+  <p>
     <strong>Xmls:</strong><br>
     <%= link_to 'Export XML', export_xml_show_path(@show, format: :xml) %> |
     <%= link_to 'Export YT XML', yt_xml_show_path(@show, format: :xml) %>

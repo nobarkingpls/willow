@@ -26,11 +26,22 @@ class ShowsController < ApplicationController
 
   # POST /shows or /shows.json
   def create
-    @show = Show.new(show_params.except(:genres))
+    @show = Show.new(show_params.except(:genres, :images))
     create_genres_shows(@show, params[:show][:genres])
 
     respond_to do |format|
       if @show.save
+
+        if params[:show][:images].present?
+          params[:show][:images].reject(&:blank?).each do |uploaded_file|
+            filename = uploaded_file.original_filename
+
+            if filename.include?("first") || filename.include?("second")
+              @show.attach_image_with_custom_key(uploaded_file)
+            end
+          end
+        end
+
         format.html { redirect_to @show, notice: "Show was successfully created." }
         format.json { render :show, status: :created, location: @show }
       else
@@ -43,6 +54,34 @@ class ShowsController < ApplicationController
   # PATCH/PUT /shows/1 or /shows/1.json
   def update
     create_genres_shows(@show, params[:show][:genres])
+
+    # handle image updates
+    if params[:show][:images].present?
+      params[:show][:images].reject(&:blank?).each do |uploaded_file|
+        # Check if uploaded_file is a file object or a string
+        if uploaded_file.respond_to?(:original_filename)
+          filename = uploaded_file.original_filename
+        else
+          filename = uploaded_file # Treat it as a path or string
+        end
+
+        if filename.include?("first") || filename.include?("second")
+          # Remove existing attachment with matching pattern
+          @show.images.each do |image|
+            existing_filename = image.filename.to_s
+            if existing_filename.include?("first") && filename.include?("first")
+              image.purge
+            elsif existing_filename.include?("second") && filename.include?("second")
+              image.purge
+            end
+          end
+
+          # Attach the new file
+          @show.attach_image_with_custom_key(uploaded_file)
+        end
+      end
+    end
+
     respond_to do |format|
       if @show.update(show_params.except(:genres))
         format.html { redirect_to @show, notice: "Show was successfully updated." }

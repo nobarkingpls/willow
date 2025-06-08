@@ -28,7 +28,7 @@ class GenerateZipBundleJobSeason < ApplicationJob
           zip.put_next_entry("episodes/#{episode.id}/data.xml")
           zip.write generate_xml_for_episode(episode)
 
-          # Add episode images (optional example)
+          # Add episode images
           episode.images.each do |image|
             if image.filename.to_s.include? "first"
               zip.put_next_entry("episodes/#{episode.id}/images/#{image.filename}")
