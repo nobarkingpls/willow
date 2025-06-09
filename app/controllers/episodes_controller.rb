@@ -39,7 +39,8 @@ class EpisodesController < ApplicationController
 
   # POST /episodes or /episodes.json
   def create
-    @episode = Episode.new(episode_params.except(:countries, :territories, :images))
+    @episode = Episode.new(episode_params.except(:actors, :countries, :territories, :images))
+    create_actors_episodes(@episode, params[:episode][:actors])
     create_countries_episodes(@episode, params[:episode][:countries])
     create_episodes_territories(@episode, params[:episode][:territories])
 
@@ -67,6 +68,7 @@ class EpisodesController < ApplicationController
 
   # PATCH/PUT /episodes/1 or /episodes/1.json
   def update
+    create_actors_episodes(@episode, params[:episode][:actors])
     create_countries_episodes(@episode, params[:episode][:countries])
     create_episodes_territories(@episode, params[:episode][:territories])
 
@@ -96,7 +98,7 @@ class EpisodesController < ApplicationController
     end
 
     respond_to do |format|
-      if @episode.update(episode_params.except(:countries, :territories))
+      if @episode.update(episode_params.except(:actors, :countries, :territories))
         format.html { redirect_to @episode, notice: "Episode was successfully updated." }
         format.json { render :show, status: :ok, location: @episode }
       else
@@ -164,6 +166,27 @@ class EpisodesController < ApplicationController
       @episode = Episode.find(params.expect(:id))
     end
 
+    def create_actors_episodes(episode, actors)
+      if actors.present?
+        # Convert incoming actors string to array of names
+        new_actor_names = actors.split(",").map(&:strip)
+        # Get existing actor names for this movie
+        existing_actor_names = episode.actors.pluck(:name)
+
+        # Add new actors that aren't already associated
+        names_to_add = new_actor_names - existing_actor_names
+        names_to_add.each do |name|
+          episode.actors << Actor.find_or_create_by(name: name)
+        end
+
+        # Remove actors that are no longer in the list
+        names_to_remove = existing_actor_names - new_actor_names
+        episode.actors.where(name: names_to_remove).each do |actor|
+          episode.actors.delete(actor)
+        end
+      end
+    end
+
     def create_countries_episodes(episode, countries)
       if countries.present?
         # Convert incoming countries string to array of names
@@ -208,6 +231,6 @@ class EpisodesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def episode_params
-      params.expect(episode: [ :title, :start, :finish, :season_id, :number, :countries, :territories ])
+      params.expect(episode: [ :title, :actors, :start, :finish, :season_id, :number, :countries, :territories ])
     end
 end

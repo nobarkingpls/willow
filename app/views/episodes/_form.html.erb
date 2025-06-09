@@ -27,6 +27,11 @@
   </div>
 
   <div>
+    <%= form.label :actors, 'Actors', style: "display: block" %>
+    <%= form.text_field :actors, value: episode.actors.map(&:name).join(",")  %>
+  </div>
+
+  <div>
     <%= form.label :countries, 'Countries', style: "display: block" %>
     <%= form.text_field :countries, value: episode.countries.map(&:code).join(",")  %>
   </div>

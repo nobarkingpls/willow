@@ -21,6 +21,11 @@
   </p>
 
   <p>
+    <strong>Actors:</strong>
+    <%= episode.actors.map { |actor| actor.name }.join(", ") %>
+  </p>
+
+  <p>
     <strong>Country(s) of origin:</strong><br>
     <%= episode.countries.map { |country| country.code }.join(", ") %>
   </p>
