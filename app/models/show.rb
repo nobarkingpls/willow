@@ -33,7 +33,7 @@ class Show < ApplicationRecord
   def generate_amazon_id(title, amazon_id_override = nil)
       return amazon_id_override if amazon_id_override.present?
 
-      title.split.map(&:capitalize).join(" ").delete("^a-zA-Z0-9") << "_Series"
+      title.split.map(&:capitalize).join(" ").delete("^a-zA-Z0-9")
   end
 
   private

@@ -22,6 +22,11 @@
   </div>
 
   <div>
+    <%= form.label :amazon_id_override, style: "display: block" %>
+    <%= form.text_field :amazon_id_override %>
+  </div>
+
+  <div>
     <%= form.label :images, style: "display: block" %>
     <%= form.file_field :images, multiple: true %>
   </div>

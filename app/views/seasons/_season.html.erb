@@ -11,7 +11,22 @@
   </p>
 
   <p>
+    <strong>Apple ID:</strong>
+    <%= season.generate_apple_id(season.show_title, season.number) %>
+  </p>
+
+  <p>
+    <strong>Amazon ID:</strong>
+      <%= season.generate_amazon_id(season.show_title, season.number, season.amazon_id_override) %>
+  </p>
+
+  <p>
     Episode count: <%= season.episodes.count %>
+  </p>
+
+  <p>
+    <strong>Amazon ID Override:</strong>
+    <%= season.amazon_id_override %>
   </p>
 
   <p>

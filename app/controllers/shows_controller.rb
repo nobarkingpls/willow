@@ -183,6 +183,6 @@ class ShowsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def show_params
-      params.expect(show: [ :show_id, :title, :genres ])
+      params.expect(show: [ :show_id, :title, :amazon_id_override, :genres ])
     end
 end

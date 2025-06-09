@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_09_175706) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_09_195504) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -140,6 +140,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_09_175706) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "show_id"
+    t.string "amazon_id_override"
     t.index ["show_id"], name: "index_seasons_on_show_id"
   end
 
@@ -156,6 +157,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_09_175706) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "amazon_id_override"
   end
 
   create_table "territories", force: :cascade do |t|

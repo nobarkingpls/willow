@@ -158,6 +158,6 @@ class SeasonsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def season_params
-      params.expect(season: [ :number, :show_id ])
+      params.expect(season: [ :number, :show_id, :amazon_id_override ])
     end
 end

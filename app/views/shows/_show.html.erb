@@ -5,12 +5,27 @@
   </p>
 
   <p>
+    <strong>Apple ID:</strong>
+    <%= show.generate_apple_id(show.title) %>
+  </p>
+
+  <p>
+    <strong>Amazon ID:</strong>
+      <%= show.generate_amazon_id(show.title, show.amazon_id_override) %>
+  </p>
+
+  <p>
     Season count: <%= show.seasons.count %>
   </p>
 
   <p>
     <strong>Genres:</strong><br>
     <%= show.genres.map { |genre| genre.name }.join(", ") %>
+  </p>
+
+  <p>
+    <strong>Amazon ID Override:</strong>
+    <%= show.amazon_id_override %>
   </p>
 
   <p>
