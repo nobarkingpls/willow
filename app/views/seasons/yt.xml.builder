@@ -6,7 +6,7 @@ xml.tag!("mdmec:CoreMetadata",
   "xmlns:mdmec" => "http://www.movielabs.com/schema/mdmec/v2.7",
   "xsi:schemaLocation" => "http://www.movielabs.com/schema/mdmec/v2.7 mdmec-v2.7.1.xsd"
 ) do
-  xml.tag!("mdmec:Basic", "ContentID" => "md:cid:org:outtv:#{@season.show_title}s#{@season.number}") do
+  xml.tag!("mdmec:Basic", "ContentID" => "md:cid:org:outtv:#{@season.generate_apple_id}") do
     xml.tag!("md:LocalizedInfo", "language" => "en", "default" => "true") do
       xml.tag!("md:TitleDisplayUnlimited", "#{@season.season_title}")
     end
