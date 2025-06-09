@@ -22,12 +22,12 @@
 
   <p>
     <strong>Apple ID:</strong>
-    <%= episode.generate_apple_id(Season.find(episode.season_id).show_title, Season.find(episode.season_id).number, episode.number) %>
+    <%= episode.generate_apple_id %>
   </p>
 
   <p>
     <strong>Amazon ID:</strong>
-      <%= episode.generate_amazon_id(Season.find(episode.season_id).show_title, Season.find(episode.season_id).number, episode.number, episode.amazon_id_override) %>
+      <%= episode.generate_amazon_id(episode.amazon_id_override) %>
   </p>
 
   <p>

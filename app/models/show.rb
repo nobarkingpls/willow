@@ -25,12 +25,12 @@ class Show < ApplicationRecord
   end
 
   # id methods
-  def generate_apple_id(title)
+  def generate_apple_id
     title.split.map(&:capitalize).join(" ").delete("^a-zA-Z0-9")
   end
 
   # method for amazon id and override
-  def generate_amazon_id(title, amazon_id_override = nil)
+  def generate_amazon_id(amazon_id_override = nil)
       return amazon_id_override if amazon_id_override.present?
 
       title.split.map(&:capitalize).join(" ").delete("^a-zA-Z0-9")

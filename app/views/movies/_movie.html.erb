@@ -5,12 +5,12 @@
 
   <p>
     <strong>Apple ID:</strong>
-    <%= movie.generate_apple_id(movie.title) %>
+    <%= movie.generate_apple_id %>
   </p>
 
   <p>
     <strong>Amazon ID:</strong>
-      <%= movie.generate_amazon_id(movie.title, movie.amazon_id_override) %>
+      <%= movie.generate_amazon_id(movie.amazon_id_override) %>
   </p>
 
   <p>

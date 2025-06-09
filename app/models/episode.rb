@@ -34,15 +34,15 @@ class Episode < ApplicationRecord
     )
   end
 
-  def generate_apple_id(show_title, season_number, episode_number)
-    show_title.split.map(&:capitalize).join(" ").delete("^a-zA-Z0-9") << "s#{season_number}e#{episode_number}"
+  def generate_apple_id
+    season.show_title.split.map(&:capitalize).join(" ").delete("^a-zA-Z0-9") << "s#{season.number}e#{number}"
   end
 
   # method for amazon id and override
-  def generate_amazon_id(show_title, season_number, episode_number, amazon_id_override = nil)
+  def generate_amazon_id(amazon_id_override = nil)
       return amazon_id_override if amazon_id_override.present?
 
-      show_title.split.map(&:capitalize).join(" ").delete("^a-zA-Z0-9") << "_s#{season_number}_e#{episode_number}"
+      season.show_title.split.map(&:capitalize).join(" ").delete("^a-zA-Z0-9") << "_s#{season.number}_e#{number}"
   end
 
   private

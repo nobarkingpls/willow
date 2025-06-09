@@ -12,12 +12,12 @@
 
   <p>
     <strong>Apple ID:</strong>
-    <%= season.generate_apple_id(season.show_title, season.number) %>
+    <%= season.generate_apple_id %>
   </p>
 
   <p>
     <strong>Amazon ID:</strong>
-      <%= season.generate_amazon_id(season.show_title, season.number, season.amazon_id_override) %>
+      <%= season.generate_amazon_id(season.amazon_id_override) %>
   </p>
 
   <p>
