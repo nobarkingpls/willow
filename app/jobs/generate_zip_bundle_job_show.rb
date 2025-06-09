@@ -6,16 +6,18 @@ class GenerateZipBundleJobShow < ApplicationJob
   def perform(show)
     Rails.logger.debug "Processing show: #{show.id}"
 
+    timestamp = Time.now.to_i
+
     Tempfile.create([ "bundle-", ".zip" ]) do |tempfile|
       Zip::OutputStream.open(tempfile) do |zip|
         # Add show XML
-        zip.put_next_entry("show/data.xml")
+        zip.put_next_entry("#{show.title}-#{timestamp}/data.xml")
         zip.write generate_xml_for_show(show)
 
         # Add show images
         show.images.each do |image|
           if image.filename.to_s.include?("second")
-            zip.put_next_entry("show/images/#{image.filename}")
+            zip.put_next_entry("#{show.title}-#{timestamp}/images/#{image.filename}")
             zip.write image.download
           end
         end
@@ -23,13 +25,13 @@ class GenerateZipBundleJobShow < ApplicationJob
         # Iterate over each season
         show.seasons.includes(:episodes).find_each do |season|
           # Add season XML
-          zip.put_next_entry("seasons/#{season.id}/data.xml")
+          zip.put_next_entry("seasons/#{season.season_title}-#{timestamp}/data.xml")
           zip.write generate_xml_for_season(season)
 
           # Add episode images (optional example)
           season.images.each do |image|
             if image.filename.to_s.include? "second"
-              zip.put_next_entry("seasons/#{season.id}/images/#{image.filename}")
+              zip.put_next_entry("seasons/#{season.season_title}-#{timestamp}/images/#{image.filename}")
               zip.write image.download
             end
           end
@@ -37,13 +39,13 @@ class GenerateZipBundleJobShow < ApplicationJob
           # Iterate over each episode in the season
           season.episodes.each do |episode|
             # Add episode XML
-            zip.put_next_entry("seasons/#{season.id}/episodes/#{episode.id}/data.xml")
+            zip.put_next_entry("seasons/#{season.season_title}-#{timestamp}/episodes/#{episode.title}-#{timestamp}/data.xml")
             zip.write generate_xml_for_episode(episode)
 
             # Add episode images
             episode.images.each do |image|
               if image.filename.to_s.include? "first"
-                zip.put_next_entry("seasons/#{season.id}/episodes/#{episode.id}/images/#{image.filename}")
+                zip.put_next_entry("seasons/#{season.season_title}-#{timestamp}/episodes/#{episode.title}-#{timestamp}/images/#{image.filename}")
                 zip.write image.download
               end
             end

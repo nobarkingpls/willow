@@ -7,11 +7,13 @@ class GenerateZipBundleJobEpisode < ApplicationJob
     # episode is now an instance of the Episode model
     Rails.logger.debug "Processing episode: #{episode.id}"
 
+    timestamp = Time.now.to_i
+
     # Create a Tempfile for the zip
     Tempfile.create([ "bundle-", ".zip" ]) do |tempfile|
       Zip::OutputStream.open(tempfile) do |zip|
         # Add XML
-        zip.put_next_entry("data.xml")
+        zip.put_next_entry("#{episode.id}-#{timestamp}/data.xml")
         zip.write generate_xml_for(episode)
 
         # Add images

@@ -30,6 +30,17 @@ class Season < ApplicationRecord
     )
   end
 
+  def generate_apple_id(show_title, season_number)
+    show_title.split.map(&:capitalize).join(" ").delete("^a-zA-Z0-9") << "s#{season_number}"
+  end
+
+  # method for amazon id and override
+  def generate_amazon_id(show_title, season_number, amazon_id_override = nil)
+      return amazon_id_override if amazon_id_override.present?
+
+      show_title.split.map(&:capitalize).join(" ").delete("^a-zA-Z0-9") << "_s#{season_number}"
+  end
+
   private
   # purge zip from s3! has_one wont do it automatically!
   def delete_zip_bundle_from_s3

@@ -6,16 +6,18 @@ class GenerateZipBundleJobSeason < ApplicationJob
   def perform(season)
     Rails.logger.debug "Processing season: #{season.id}"
 
+    timestamp = Time.now.to_i
+
     Tempfile.create([ "bundle-", ".zip" ]) do |tempfile|
       Zip::OutputStream.open(tempfile) do |zip|
         # Add season XML
-        zip.put_next_entry("season/data.xml")
+        zip.put_next_entry("#{season.id}-#{timestamp}/data.xml")
         zip.write generate_xml_for(season)
 
         # Add season images
         season.images.each do |image|
           if image.filename.to_s.include?("second")
-            zip.put_next_entry("season/images/#{image.filename}")
+            zip.put_next_entry("#{season.id}-#{timestamp}/images/#{image.filename}")
             zip.write image.download
           end
         end
@@ -24,13 +26,13 @@ class GenerateZipBundleJobSeason < ApplicationJob
         # not sure if this image thing will work but hey here for now
         season.episodes.each do |episode|
           # Add episode XML
-          zip.put_next_entry("episodes/#{episode.id}/data.xml")
+          zip.put_next_entry("episodes/#{episode.id}-#{timestamp}/data.xml")
           zip.write generate_xml_for_episode(episode)
 
           # Add episode images
           episode.images.each do |image|
             if image.filename.to_s.include? "first"
-              zip.put_next_entry("episodes/#{episode.id}/images/#{image.filename}")
+              zip.put_next_entry("episodes/#{episode.id}-#{timestamp}/images/#{image.filename}")
               zip.write image.download
             end
           end

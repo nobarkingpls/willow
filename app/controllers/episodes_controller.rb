@@ -231,6 +231,6 @@ class EpisodesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def episode_params
-      params.expect(episode: [ :title, :actors, :start, :finish, :season_id, :number, :countries, :territories ])
+      params.expect(episode: [ :title, :amazon_id_override, :actors, :start, :finish, :season_id, :number, :countries, :territories ])
     end
 end

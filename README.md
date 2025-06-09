@@ -20,6 +20,7 @@ i have run kamal app stop, please run kamal app start to start again and start t
 for zips add series zip which includes seasons and episodes
 try out images for episodes and seasons and including ep imgs int he season zip
 
+add to general creat update methods for actors, like if no other item is using the actor, you can delete it from the actor model
 
 add to movies:
 original release date

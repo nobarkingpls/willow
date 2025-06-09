@@ -21,6 +21,16 @@
   </p>
 
   <p>
+    <strong>Apple ID:</strong>
+    <%= episode.generate_apple_id(Season.find(episode.season_id).show_title, Season.find(episode.season_id).number, episode.number) %>
+  </p>
+
+  <p>
+    <strong>Amazon ID:</strong>
+      <%= episode.generate_amazon_id(Season.find(episode.season_id).show_title, Season.find(episode.season_id).number, episode.number, episode.amazon_id_override) %>
+  </p>
+
+  <p>
     <strong>Actors:</strong>
     <%= episode.actors.map { |actor| actor.name }.join(", ") %>
   </p>
@@ -47,6 +57,11 @@
     <% if episode.finish.present? %>
       <%= episode.finish.in_time_zone.strftime("%Y-%m-%d %H:%M:%S %:z") %>
     <% end %>
+  </p>
+
+  <p>
+    <strong>Amazon ID Override:</strong>
+    <%= episode.amazon_id_override %>
   </p>
 
   <p>

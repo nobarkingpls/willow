@@ -24,6 +24,18 @@ class Show < ApplicationRecord
     )
   end
 
+  # id methods
+  def generate_apple_id(title)
+    title.split.map(&:capitalize).join(" ").delete("^a-zA-Z0-9")
+  end
+
+  # method for amazon id and override
+  def generate_amazon_id(title, amazon_id_override = nil)
+      return amazon_id_override if amazon_id_override.present?
+
+      title.split.map(&:capitalize).join(" ").delete("^a-zA-Z0-9") << "_Series"
+  end
+
   private
   # purge zip from s3! has_one wont do it automatically!
   def delete_zip_bundle_from_s3

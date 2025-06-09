@@ -27,6 +27,11 @@
   </div>
 
   <div>
+    <%= form.label :amazon_id_override, style: "display: block" %>
+    <%= form.text_field :amazon_id_override %>
+  </div>
+
+  <div>
     <%= form.label :actors, 'Actors', style: "display: block" %>
     <%= form.text_field :actors, value: episode.actors.map(&:name).join(",")  %>
   </div>
