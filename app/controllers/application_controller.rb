@@ -2,6 +2,9 @@ class ApplicationController < ActionController::Base
   include Authentication
   include ActionController::HttpAuthentication::Token::ControllerMethods
 
+  # skip csrf for api
+  protect_from_forgery unless: -> { request.format.json? }
+
   before_action :conditionally_authenticate
   before_action :require_authentication, unless: -> { request.format.json? }  # Skip for API requests
 
