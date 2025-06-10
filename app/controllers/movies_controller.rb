@@ -9,10 +9,10 @@ class MoviesController < ApplicationController
 
     @movies = Movie.all
 
-    respond_to do |format|
-      format.html
-      format.turbo_stream
-    end
+    # respond_to do |format|
+    #   format.html
+    #   format.turbo_stream
+    # end
   end
 
   # GET /movies/1 or /movies/1.json

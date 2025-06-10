@@ -9,6 +9,11 @@ xml.tag!("mdmec:CoreMetadata",
   xml.tag!("mdmec:Basic", "ContentID" => "md:cid:org:outtv:#{@show.generate_apple_id}") do
     xml.tag!("md:LocalizedInfo", "language" => "en", "default" => "true") do
       xml.tag!("md:TitleDisplayUnlimited", "#{@show.title}")
+      seasons = @show.seasons
+      xml.tag!("md:seasoncountheh", "#{seasons.count}")
+      seasons.each do |season|
+        xml.tag!("md:seasontestheh", "#{season.generate_apple_id}")
+      end
     end
     # add more nested content here if needed
   end
