@@ -25,6 +25,9 @@ gem "rubyzip"
 # add for aws s3
 gem "aws-sdk-s3", require: false
 
+# for excel
+gem "fast_excel"
+
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"
 

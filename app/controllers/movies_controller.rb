@@ -18,6 +18,12 @@ class MoviesController < ApplicationController
   # GET /movies/1 or /movies/1.json
   def show
     @movie = Movie.find(params[:id])
+
+    respond_to do |format|
+      format.html
+      format.json { render :show, status: :created, location: @movie }
+      format.csv { send_data Movie.to_csv, filename: "movie-#{Date.today}.csv" }
+    end
   end
 
   # GET /movies/new
@@ -148,9 +154,35 @@ class MoviesController < ApplicationController
     end
   end
 
+  # itunes xml
+  # def itunes_xml
+  #   @movie = Movie.find(params[:id])  # Find the specific movie (same as in show)
+
+  #   respond_to do |format|
+  #     # just display xml in browser
+  #     format.xml { render "itunes" }
+
+  #     # this one makes it download. note the filename you can change!
+  #     # format.xml do
+  #     #   xml_string = render_to_string(template: "movies/itunes", formats: [ :xml ])
+  #     #   send_data xml_string, filename: "movie_#{@movie.title}.xml", type: "application/xml"
+  #     # end
+  #   end
+  # end
+
   def prepare_bundle
     @movie = Movie.find(params[:id])
     GenerateZipBundleJob.perform_later(@movie)
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to @movie, notice: "Your download is being prepared. Check back shortly!" }
+    end
+  end
+
+  def prepare_itunes_bundle
+    @movie = Movie.find(params[:id])
+    GenerateItunesZipBundleJob.perform_later(@movie)
 
     respond_to do |format|
       format.turbo_stream

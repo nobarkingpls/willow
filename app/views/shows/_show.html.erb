@@ -31,6 +31,11 @@
   <p>
     <strong>Images:</strong><br>
     <% show.images.each do |image| %>
+      <% if image.filename.to_s.include?("first") then %>
+        First:<br>
+      <% elsif image.filename.to_s.include?("second") then %>
+        Second:<br>
+      <% end %>
       <%= image_tag image.variant(resize_to_limit: [100, 100]) %>
       <br>
       <%= link_to image %>

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "avails/index"
   resources :territories
   resource :session
   resources :passwords, param: :token
@@ -31,7 +32,9 @@ Rails.application.routes.draw do
     member do
       get "export_xml", to: "movies#export_xml"
       get "yt_xml", to: "movies#yt_xml"
+      # get "itunes_xml", to: "movies#itunes_xml"
       post "prepare_bundle", to: "movies#prepare_bundle", as: :prepare_bundle
+      post "prepare_itunes_bundle", to: "movies#prepare_itunes_bundle", as: :prepare_itunes_bundle
     end
   end
 
@@ -40,6 +43,8 @@ Rails.application.routes.draw do
   get "feed.xml", to: "feeds#xml_feed", defaults: { format: "xml" }
   get "content_feed.xml", to: "feeds#content_feed", defaults: { format: "xml" }
   get "avail_feed.xml", to: "feeds#avail_feed", defaults: { format: "xml" }
+
+  get "avails", to: "avails#index"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

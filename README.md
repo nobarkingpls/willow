@@ -3,24 +3,24 @@
 todos:
 add validation rules for everything
 add slim select or something like that and see if it can pass a comma seperated string of values to hash, and also display them back
-picture uploads - done for movies
+picture uploads - done for movies - done
   sort pictures into folders like heroku atm - done!
 movie xml export - sort of done
 weekend - setup s3, add devise or some auth + api token - done
 deploy! - done
-zip picture and xml together
+zip picture and xml together - done
 check box to zip multiple together
-utc -> timezone adjuster for date time
-add https://github.com/Paxa/fast_excel for excel exports
+utc -> timezone adjuster for date time - done
+add https://github.com/Paxa/fast_excel for excel exports - done
 
-to do!! check s3 functionality in production (added the url to bucket cors, if doesnt work try the ip)
+to do!! check s3 functionality in production (added the url to bucket cors, if doesnt work try the ip) - done
 
-i have run kamal app stop, please run kamal app start to start again and start the docker container, im also going to turn off the digital ocean droplet server, which will need to be turned back on via do site :>
+i have run kamal app stop, please run kamal app start to start again and start the docker container, im also going to turn off the digital ocean droplet server, which will need to be turned back on via do site :> (if kamal app start doesn't work try kamal boot)
 
-for zips add series zip which includes seasons and episodes
-try out images for episodes and seasons and including ep imgs int he season zip
+for zips add series zip which includes seasons and episodes - done
+try out images for episodes and seasons and including ep imgs int he season zip - done
 
-add to general creat update methods for actors, like if no other item is using the actor, you can delete it from the actor model
+add to general create update methods for actors, like if no other item is using the actor, you can delete it from the actor model
 
 add to movies:
 original release date

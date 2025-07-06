@@ -55,6 +55,11 @@
   <p>
     <strong>Images:</strong><br>
     <% movie.images.each do |image| %>
+      <% if image.filename.to_s.include?("test") then %>
+        Test:<br>
+      <% elsif image.filename.to_s.include?("second") then %>
+        Second:<br>
+      <% end %>
       <%= image_tag image.variant(resize_to_limit: [100, 100]) %>
       <br>
       <%= link_to image %>
@@ -66,6 +71,11 @@
     <strong>Xmls:</strong><br>
     <%= link_to 'Export XML', export_xml_movie_path(@movie, format: :xml) %> |
     <%= link_to 'Export YT XML', yt_xml_movie_path(@movie, format: :xml) %>
+  </p>
+
+  <p>
+    <strong>Csv:</strong><br>
+    <%= link_to "Export as CSV", movie_path(format: :csv) %>
   </p>
 
   <%= turbo_stream_from "zip_bundle_#{@movie.id}" %>

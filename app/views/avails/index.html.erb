@@ -1,0 +1,37 @@
+<h1>Export Avails</h1>
+
+<%= form_with url: avails_path(format: :csv), method: :get, local: true do |f| %>
+  <div>
+    <%= label_tag :avail_type %>
+    <%= select_tag :avail_type, options_for_select([["Amazon", "amazon"], ["Youtube", "youtube"], ["Roku", "roku"]], params[:avail_type]), include_blank: "Choose type" %>
+  </div>
+  
+  <div>
+    <%= label_tag :start_date %>
+    <%= date_field_tag :start_date, params[:start_date] %>
+  </div>
+
+  <div>
+    <%= label_tag :end_date %>
+    <%= date_field_tag :end_date, params[:end_date] %>
+  </div>
+
+  <div>
+    <%= label_tag :show_id, "Filter by Show" %>
+    <%= select_tag :show_id, options_from_collection_for_select(@shows, :id, :title, params[:show_id]), include_blank: true %>
+  </div>
+
+  <div>
+    <%= label_tag :season_id, "Filter by Season" %>
+    <%= select_tag :season_id, options_from_collection_for_select(@seasons, :id, :season_title, params[:season_id]), include_blank: true %>
+  </div>
+
+  <div>
+    <%= label_tag :movie_id, "Filter by Movie" %>
+    <%= select_tag :movie_id, options_from_collection_for_select(@movies, :id, :title, params[:movie_id]), include_blank: true %>
+  </div>
+
+  <div>
+    <%= submit_tag "Export xlsx" %>
+  </div>
+<% end %>

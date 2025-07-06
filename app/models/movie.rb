@@ -1,3 +1,5 @@
+require "csv"
+
 class Movie < ApplicationRecord
     has_many :genres_movies, dependent: :destroy
     has_many :genres, through: :genres_movies
@@ -19,6 +21,9 @@ class Movie < ApplicationRecord
 
     has_one_attached :zip_bundle
     after_destroy :delete_zip_bundle_from_s3
+
+    has_one_attached :itunes_zip_bundle
+    after_destroy :delete_itunes_zip_bundle_from_s3
 
     # image logic see below also
     def attach_image_with_custom_key(uploaded_file)
@@ -44,6 +49,19 @@ class Movie < ApplicationRecord
         title.split.map(&:capitalize).join(" ").delete("^a-zA-Z0-9") << "_Movie"
     end
 
+    # csv export - comment or remove at some point!!
+    def self.to_csv
+        attributes = %w[id]
+
+        CSV.generate(headers: true) do |csv|
+            csv << attributes
+
+            all.find_each do |movie|
+            csv << attributes.map { |attr| movie.send(attr) }
+            end
+        end
+    end
+
     private
 
     # direct image to s3 folder
@@ -63,5 +81,11 @@ class Movie < ApplicationRecord
     def delete_zip_bundle_from_s3
         # Check if there's a zip_bundle attached and purge it
         zip_bundle.purge if zip_bundle.attached?
+    end
+
+    # purge itunes zip from s3! has_one wont do it automatically!
+    def delete_itunes_zip_bundle_from_s3
+        # Check if there's a zip_bundle attached and purge it
+        itunes_zip_bundle.purge if itunes_zip_bundle.attached?
     end
 end
