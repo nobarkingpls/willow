@@ -150,6 +150,16 @@ class SeasonsController < ApplicationController
     end
   end
 
+  def prepare_itunes_bundle
+    @season = Season.find(params[:id])
+    GenerateItunesZipBundleJobSeason.perform_later(@season)
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to @season, notice: "Your download is being prepared. Check back shortly!" }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_season

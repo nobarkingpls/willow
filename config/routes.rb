@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       get "export_xml", to: "episodes#export_xml"
       get "yt_xml", to: "episodes#yt_xml"
       post "prepare_bundle", to: "episodes#prepare_bundle", as: :prepare_bundle
+      post "prepare_itunes_bundle", to: "episodes#prepare_itunes_bundle", as: :prepare_itunes_bundle
     end
   end
   resources :seasons do
@@ -15,6 +16,7 @@ Rails.application.routes.draw do
       get "export_xml", to: "seasons#export_xml"
       get "yt_xml", to: "seasons#yt_xml"
       post "prepare_bundle", to: "seasons#prepare_bundle", as: :prepare_bundle
+      post "prepare_itunes_bundle", to: "seasons#prepare_itunes_bundle", as: :prepare_itunes_bundle
     end
   end
   resources :shows do

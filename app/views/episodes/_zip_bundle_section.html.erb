@@ -8,5 +8,13 @@
     <% if episode.zip_bundle.attached? %>
       <%= link_to 'Download Zip', rails_blob_path(episode.zip_bundle, disposition: "attachment") %>
     <% end %>
+
+    <%= button_to "Prepare iTunes Zip Bundle",
+                  prepare_itunes_bundle_episode_path(episode),
+                  method: :post %>
+
+    <% if episode.itunes_zip_bundle.attached? %>
+      <%= link_to 'Download iTunes Zip', rails_blob_path(episode.itunes_zip_bundle, disposition: "attachment") %>
+    <% end %>
   </p>
 <% end %>

@@ -160,6 +160,16 @@ class EpisodesController < ApplicationController
     end
   end
 
+  def prepare_itunes_bundle
+    @episode = Episode.find(params[:id])
+    GenerateItunesZipBundleJob.perform_later(@episode)
+
+    respond_to do |format|
+      format.turbo_stream
+      format.html { redirect_to @episode, notice: "Your download is being prepared. Check back shortly!" }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_episode

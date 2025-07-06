@@ -17,6 +17,9 @@ class Season < ApplicationRecord
   has_one_attached :zip_bundle
   after_destroy :delete_zip_bundle_from_s3
 
+  has_one_attached :itunes_zip_bundle
+  after_destroy :delete_itunes_zip_bundle_from_s3s
+
   # image logic see below also
   def attach_image_with_custom_key(uploaded_file)
     uploaded_file.tempfile.rewind
@@ -46,6 +49,12 @@ class Season < ApplicationRecord
   def delete_zip_bundle_from_s3
     # Check if there's a zip_bundle attached and purge it
     zip_bundle.purge if zip_bundle.attached?
+  end
+
+  # purge itunes zip from s3! has_one wont do it automatically!
+  def delete_itunes_zip_bundle_from_s3
+    # Check if there's a zip_bundle attached and purge it
+    itunes_zip_bundle.purge if itunes_zip_bundle.attached?
   end
 
   # direct image to s3 folder
