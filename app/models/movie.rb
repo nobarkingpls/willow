@@ -1,6 +1,8 @@
 require "csv"
 
 class Movie < ApplicationRecord
+    include HasJoinTableAssociations
+
     has_many :genres_movies, dependent: :destroy
     has_many :genres, through: :genres_movies
     validates_associated :genres

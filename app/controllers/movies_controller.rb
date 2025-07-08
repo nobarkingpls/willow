@@ -39,10 +39,10 @@ class MoviesController < ApplicationController
   # POST /movies or /movies.json
   def create
     @movie = Movie.new(movie_params.except(:actors, :genres, :countries, :territories, :images))
-    create_actors_movies(@movie, params[:movie][:actors])
-    create_genres_movies(@movie, params[:movie][:genres])
-    create_countries_movies(@movie, params[:movie][:countries])
-    create_movies_territories(@movie, params[:movie][:territories])
+    @movie.update_named_associations(:actors, params[:movie][:actors])
+    @movie.update_named_associations(:genres, params[:movie][:genres])
+    @movie.update_country_code_associations(:countries, params[:movie][:countries])
+    @movie.update_country_code_associations(:territories, params[:movie][:territories])
 
     respond_to do |format|
       if @movie.save
@@ -69,10 +69,10 @@ class MoviesController < ApplicationController
   # PATCH/PUT /movies/1 or /movies/1.json
   def update
     # methods for handling these specific jobs
-    create_actors_movies(@movie, params[:movie][:actors])
-    create_genres_movies(@movie, params[:movie][:genres])
-    create_countries_movies(@movie, params[:movie][:countries])
-    create_movies_territories(@movie, params[:movie][:territories])
+    @movie.update_named_associations(:actors, params[:movie][:actors])
+    @movie.update_named_associations(:genres, params[:movie][:genres])
+    @movie.update_country_code_associations(:countries, params[:movie][:countries])
+    @movie.update_country_code_associations(:territories, params[:movie][:territories])
 
     # handle image updates
     if params[:movie][:images].present?
@@ -191,89 +191,6 @@ class MoviesController < ApplicationController
   end
 
   private
-    def create_actors_movies(movie, actors)
-      if actors.present?
-        # Convert incoming actors string to array of names
-        new_actor_names = actors.split(",").map(&:strip)
-        # Get existing actor names for this movie
-        existing_actor_names = movie.actors.pluck(:name)
-
-        # Add new actors that aren't already associated
-        names_to_add = new_actor_names - existing_actor_names
-        names_to_add.each do |name|
-          movie.actors << Actor.find_or_create_by(name: name)
-        end
-
-        # Remove actors that are no longer in the list
-        names_to_remove = existing_actor_names - new_actor_names
-        movie.actors.where(name: names_to_remove).each do |actor|
-          movie.actors.delete(actor)
-        end
-      end
-    end
-
-    def create_genres_movies(movie, genres)
-      if genres.present?
-        # Convert incoming genres string to array of names
-        new_genre_names = genres.split(",").map(&:strip)
-        # Get existing genre names for this movie
-        existing_genre_names = movie.genres.pluck(:name)
-
-        # Add new genres that aren't already associated
-        names_to_add = new_genre_names - existing_genre_names
-        names_to_add.each do |name|
-          movie.genres << Genre.find_by(name: name)
-        end
-
-        # Remove genres that are no longer in the list
-        names_to_remove = existing_genre_names - new_genre_names
-        movie.genres.where(name: names_to_remove).each do |genre|
-          movie.genres.delete(genre)
-        end
-      end
-    end
-
-    def create_countries_movies(movie, countries)
-      if countries.present?
-        # Convert incoming countries string to array of names
-        new_country_codes = countries.split(",").map(&:strip)
-        # Get existing country names for this movie
-        existing_country_codes = movie.countries.pluck(:code)
-
-        # Add new countries that aren't already associated
-        codes_to_add = new_country_codes - existing_country_codes
-        codes_to_add.each do |code|
-          movie.countries << Country.find_by(code: code)
-        end
-
-        # Remove countries that are no longer in the list
-        codes_to_remove = existing_country_codes - new_country_codes
-        movie.countries.where(code: codes_to_remove).each do |code|
-          movie.countries.delete(code)
-        end
-      end
-    end
-
-    def create_movies_territories(movie, territories)
-      if territories.present?
-        # Convert incoming territories string to array of names
-        new_territory_codes = territories.split(",").map(&:strip)
-        # Get existing territory names for this movie
-        existing_territory_codes = movie.territories.pluck(:code)
-
-        # Add new countries that aren't already associated
-        codes_to_add = new_territory_codes - existing_territory_codes
-        codes_to_add.each do |code|
-          movie.territories << Territory.find_by(code: code)
-        end
-
-        # Remove territories that are no longer in the list
-        codes_to_remove = existing_territory_codes - new_territory_codes
-        movie.territories.where(code: codes_to_remove).each do |code|
-          movie.territories.delete(code)
-        end
-      end
-    end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_movie
