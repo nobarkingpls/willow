@@ -1,4 +1,6 @@
 class Episode < ApplicationRecord
+  include HasJoinTableAssociations
+  
   belongs_to :season
 
   has_many :countries_episodes, dependent: :destroy

@@ -27,6 +27,11 @@
   </div>
 
   <div>
+    <%= form.label :actors, 'Actors', style: "display: block" %>
+    <%= form.text_field :actors, value: show.actors.map(&:name).join(",")  %>
+  </div>
+
+  <div>
     <%= form.label :images, style: "display: block" %>
     <%= form.file_field :images, multiple: true %>
   </div>

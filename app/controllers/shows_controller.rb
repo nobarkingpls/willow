@@ -26,8 +26,9 @@ class ShowsController < ApplicationController
 
   # POST /shows or /shows.json
   def create
-    @show = Show.new(show_params.except(:genres, :images))
-    create_genres_shows(@show, params[:show][:genres])
+    @show = Show.new(show_params.except(:genres, :actors, :images))
+    @show.update_named_associations(:genres, params[:show][:genres])
+    @show.update_named_associations(:actors, params[:show][:actors])
 
     respond_to do |format|
       if @show.save
@@ -53,7 +54,8 @@ class ShowsController < ApplicationController
 
   # PATCH/PUT /shows/1 or /shows/1.json
   def update
-    create_genres_shows(@show, params[:show][:genres])
+    @show.update_named_associations(:genres, params[:show][:genres])
+    @show.update_named_associations(:actors, params[:show][:actors])
 
     # handle image updates
     if params[:show][:images].present?
@@ -83,7 +85,7 @@ class ShowsController < ApplicationController
     end
 
     respond_to do |format|
-      if @show.update(show_params.except(:genres))
+      if @show.update(show_params.except(:genres, :actors))
         format.html { redirect_to @show, notice: "Show was successfully updated." }
         format.json { render :show, status: :ok, location: @show }
       else
@@ -160,29 +162,8 @@ class ShowsController < ApplicationController
       @show = Show.find(params.expect(:id))
     end
 
-    def create_genres_shows(show, genres)
-      if genres.present?
-        # Convert incoming genres string to array of names
-        new_genre_names = genres.split(",").map(&:strip)
-        # Get existing genre names for this show
-        existing_genre_names = show.genres.pluck(:name)
-
-        # Add new genres that aren't already associated
-        names_to_add = new_genre_names - existing_genre_names
-        names_to_add.each do |name|
-          show.genres << Genre.find_by(name: name)
-        end
-
-        # Remove genres that are no longer in the list
-        names_to_remove = existing_genre_names - new_genre_names
-        show.genres.where(name: names_to_remove).each do |genre|
-          show.genres.delete(genre)
-        end
-      end
-    end
-
     # Only allow a list of trusted parameters through.
     def show_params
-      params.expect(show: [ :show_id, :title, :amazon_id_override, :genres ])
+      params.expect(show: [ :show_id, :title, :amazon_id_override, :genres, :actors ])
     end
 end

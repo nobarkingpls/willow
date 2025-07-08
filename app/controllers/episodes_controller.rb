@@ -40,9 +40,9 @@ class EpisodesController < ApplicationController
   # POST /episodes or /episodes.json
   def create
     @episode = Episode.new(episode_params.except(:actors, :countries, :territories, :images))
-    create_actors_episodes(@episode, params[:episode][:actors])
-    create_countries_episodes(@episode, params[:episode][:countries])
-    create_episodes_territories(@episode, params[:episode][:territories])
+    @episode.update_named_associations(:actors, params[:episode][:actors])
+    @episode.update_country_code_associations(:countries, params[:episode][:countries])
+    @episode.update_country_code_associations(:territories, params[:episode][:territories])
 
     respond_to do |format|
       if @episode.save
@@ -68,9 +68,9 @@ class EpisodesController < ApplicationController
 
   # PATCH/PUT /episodes/1 or /episodes/1.json
   def update
-    create_actors_episodes(@episode, params[:episode][:actors])
-    create_countries_episodes(@episode, params[:episode][:countries])
-    create_episodes_territories(@episode, params[:episode][:territories])
+    @episode.update_named_associations(:actors, params[:episode][:actors])
+    @episode.update_country_code_associations(:countries, params[:episode][:countries])
+    @episode.update_country_code_associations(:territories, params[:episode][:territories])
 
     # handle image updates
     if params[:episode][:images].present?
@@ -174,69 +174,6 @@ class EpisodesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_episode
       @episode = Episode.find(params.expect(:id))
-    end
-
-    def create_actors_episodes(episode, actors)
-      if actors.present?
-        # Convert incoming actors string to array of names
-        new_actor_names = actors.split(",").map(&:strip)
-        # Get existing actor names for this movie
-        existing_actor_names = episode.actors.pluck(:name)
-
-        # Add new actors that aren't already associated
-        names_to_add = new_actor_names - existing_actor_names
-        names_to_add.each do |name|
-          episode.actors << Actor.find_or_create_by(name: name)
-        end
-
-        # Remove actors that are no longer in the list
-        names_to_remove = existing_actor_names - new_actor_names
-        episode.actors.where(name: names_to_remove).each do |actor|
-          episode.actors.delete(actor)
-        end
-      end
-    end
-
-    def create_countries_episodes(episode, countries)
-      if countries.present?
-        # Convert incoming countries string to array of names
-        new_country_codes = countries.split(",").map(&:strip)
-        # Get existing country names for this episode
-        existing_country_codes = episode.countries.pluck(:code)
-
-        # Add new countries that aren't already associated
-        codes_to_add = new_country_codes - existing_country_codes
-        codes_to_add.each do |code|
-          episode.countries << Country.find_by(code: code)
-        end
-
-        # Remove countries that are no longer in the list
-        codes_to_remove = existing_country_codes - new_country_codes
-        episode.countries.where(code: codes_to_remove).each do |code|
-          episode.countries.delete(code)
-        end
-      end
-    end
-
-    def create_episodes_territories(episode, territories)
-      if territories.present?
-        # Convert incoming territories string to array of names
-        new_territory_codes = territories.split(",").map(&:strip)
-        # Get existing territory names for this movie
-        existing_territory_codes = episode.territories.pluck(:code)
-
-        # Add new countries that aren't already associated
-        codes_to_add = new_territory_codes - existing_territory_codes
-        codes_to_add.each do |code|
-          episode.territories << Territory.find_by(code: code)
-        end
-
-        # Remove territories that are no longer in the list
-        codes_to_remove = existing_territory_codes - new_territory_codes
-        episode.territories.where(code: codes_to_remove).each do |code|
-          episode.territories.delete(code)
-        end
-      end
     end
 
     # Only allow a list of trusted parameters through.

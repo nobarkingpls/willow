@@ -24,6 +24,11 @@
   </p>
 
   <p>
+    <strong>Actors:</strong><br>
+    <%= show.actors.map { |actor| actor.name }.join(", ") %>
+  </p>
+
+  <p>
     <strong>Amazon ID Override:</strong>
     <%= show.amazon_id_override %>
   </p>

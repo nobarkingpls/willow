@@ -37,7 +37,7 @@
   </div>
 
   <div>
-    <%= form.label :countries, 'Countries', style: "display: block" %>
+    <%= form.label :countries, 'Country(s) of origin', style: "display: block" %>
     <%= form.text_field :countries, value: episode.countries.map(&:code).join(",")  %>
   </div>
 

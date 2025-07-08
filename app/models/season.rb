@@ -1,4 +1,6 @@
 class Season < ApplicationRecord
+  include HasJoinTableAssociations
+  
   belongs_to :show
   has_many :episodes
 
