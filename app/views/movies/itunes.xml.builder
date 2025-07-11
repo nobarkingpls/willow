@@ -22,8 +22,8 @@ xml.tag!("package",
           xml.tag!("locale", "name" => "en")
           xml.tag!("file_name", "com.outtv.svod.catalog_#{@movie.generate_apple_id}_1.mov")
           xml.tag!("size", "")
-          xml.tag!("checksum", "type" => "md5") do
-            xml.text! ""
+          if @movie.photosensitivity
+            xml.tag!("attribute", { "name" => "photosensitive_epilepsy_risk" }, "true")
           end
           # etcetera :>
         end

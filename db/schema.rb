@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_08_230638) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_11_201418) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -96,6 +96,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_08_230638) do
     t.integer "season_id"
     t.integer "number"
     t.string "amazon_id_override"
+    t.boolean "photosensitivity"
     t.index ["season_id"], name: "index_episodes_on_season_id"
   end
 
@@ -133,6 +134,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_08_230638) do
     t.datetime "start"
     t.datetime "finish"
     t.string "amazon_id_override"
+    t.boolean "photosensitivity"
   end
 
   create_table "movies_territories", force: :cascade do |t|

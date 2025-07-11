@@ -162,7 +162,7 @@ class EpisodesController < ApplicationController
 
   def prepare_itunes_bundle
     @episode = Episode.find(params[:id])
-    GenerateItunesZipBundleJob.perform_later(@episode)
+    GenerateItunesZipBundleJobEpisode.perform_later(@episode)
 
     respond_to do |format|
       format.turbo_stream
@@ -178,6 +178,6 @@ class EpisodesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def episode_params
-      params.expect(episode: [ :title, :amazon_id_override, :actors, :start, :finish, :season_id, :number, :countries, :territories ])
+      params.expect(episode: [ :title, :amazon_id_override, :actors, :start, :finish, :season_id, :number, :countries, :territories, :photosensitivity ])
     end
 end
