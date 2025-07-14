@@ -21,6 +21,9 @@ class Movie < ApplicationRecord
 
     has_many_attached :images
 
+    has_one_attached :scc
+    after_destroy :delete_scc_from_s3
+
     has_one_attached :zip_bundle
     after_destroy :delete_zip_bundle_from_s3
 
@@ -32,6 +35,19 @@ class Movie < ApplicationRecord
         uploaded_file.tempfile.rewind
 
         images.attach(
+            io: uploaded_file.tempfile,
+            filename: uploaded_file.original_filename,
+            content_type: uploaded_file.content_type,
+            key: custom_s3_key(uploaded_file.original_filename),
+            identify: false
+        )
+    end
+
+    # scc logic see below also
+    def attach_scc_with_custom_key(uploaded_file)
+        uploaded_file.tempfile.rewind
+
+        scc.attach(
             io: uploaded_file.tempfile,
             filename: uploaded_file.original_filename,
             content_type: uploaded_file.content_type,
@@ -66,16 +82,26 @@ class Movie < ApplicationRecord
 
     private
 
-    # direct image to s3 folder
+    # direct file to s3 folder
     def custom_s3_key(filename)
-        ext = File.extname(filename)
+        ext = File.extname(filename).downcase
         base = File.basename(filename, ext)
         uuid = SecureRandom.uuid
 
-        if filename.include?("test")
-          "#{Rails.env}/movies/test-folder/#{base}-#{uuid}#{ext}"
-        elsif filename.include?("second")
-          "#{Rails.env}/movies/second-folder/#{base}-#{uuid}#{ext}"
+        # not actually checking file types here o.o just extensions!
+        case ext
+        when ".scc"
+          "#{Rails.env}/movies/scc/#{base}-#{uuid}#{ext}"
+        when ".png"
+          if filename.include?("test")
+            "#{Rails.env}/movies/test-folder/#{base}-#{uuid}#{ext}"
+          elsif filename.include?("second")
+            "#{Rails.env}/movies/second-folder/#{base}-#{uuid}#{ext}"
+          else
+            nil # do i handle nil i can't remember?
+          end
+        else
+          nil
         end
     end
 
@@ -87,7 +113,14 @@ class Movie < ApplicationRecord
 
     # purge itunes zip from s3! has_one wont do it automatically!
     def delete_itunes_zip_bundle_from_s3
-        # Check if there's a zip_bundle attached and purge it
+        # Check if there's a itunes zip_bundle attached and purge it
         itunes_zip_bundle.purge if itunes_zip_bundle.attached?
+    end
+
+    # purge scc s3! has_one wont do it automatically!
+    # # test this pls!! -- works :)
+    def delete_scc_from_s3
+        # Check if there's a scc attached and purge it
+        scc.purge if scc.attached?
     end
 end

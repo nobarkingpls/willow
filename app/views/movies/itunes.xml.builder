@@ -25,6 +25,7 @@ xml.tag!("package",
           if @movie.photosensitivity
             xml.tag!("attribute", { "name" => "photosensitive_epilepsy_risk" }, "true")
           end
+          xml.tag!("caption md5 heh", @movie.scc_md5)
           # etcetera :>
         end
       end

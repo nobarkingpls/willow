@@ -38,7 +38,7 @@ class MoviesController < ApplicationController
 
   # POST /movies or /movies.json
   def create
-    @movie = Movie.new(movie_params.except(:actors, :genres, :countries, :territories, :images))
+    @movie = Movie.new(movie_params.except(:actors, :genres, :countries, :territories, :images, :scc))
     @movie.update_named_associations(:actors, params[:movie][:actors])
     @movie.update_named_associations(:genres, params[:movie][:genres])
     @movie.update_country_code_associations(:countries, params[:movie][:countries])
@@ -46,14 +46,31 @@ class MoviesController < ApplicationController
 
     respond_to do |format|
       if @movie.save
-
+        # handle images
         if params[:movie][:images].present?
           params[:movie][:images].reject(&:blank?).each do |uploaded_file|
             filename = uploaded_file.original_filename
 
+            ext = File.extname(filename).downcase
+            next unless ext == ".jpg"
+
             if filename.include?("test") || filename.include?("second")
               @movie.attach_image_with_custom_key(uploaded_file)
             end
+          end
+        end
+
+        # handle scc
+        if params[:movie][:scc].present?
+          uploaded_file = params[:movie][:scc]
+
+          filename = uploaded_file.original_filename
+
+          ext = File.extname(filename).downcase
+          ext = File.extname(filename).downcase
+          if ext == ".scc"
+            @movie.attach_scc_with_custom_key(uploaded_file)
+            GenerateMd5ForSccJob.perform_later(@movie)
           end
         end
 
@@ -84,6 +101,9 @@ class MoviesController < ApplicationController
           filename = uploaded_file # Treat it as a path or string
         end
 
+        ext = File.extname(filename).downcase
+        next unless ext == ".jpg"
+
         if filename.include?("test") || filename.include?("second")
           # Remove existing attachment with matching pattern
           @movie.images.each do |image|
@@ -101,8 +121,28 @@ class MoviesController < ApplicationController
       end
     end
 
+    # handle scc updates
+    if params[:movie][:scc].present?
+      uploaded_file = params[:movie][:scc]
+
+      if uploaded_file.respond_to?(:original_filename)
+        filename = uploaded_file.original_filename
+      else
+        filename = uploaded_file
+      end
+
+      ext = File.extname(filename).downcase
+      if ext == ".scc"
+        if @movie.scc.attached?
+          @movie.scc.purge
+        end
+        @movie.attach_scc_with_custom_key(uploaded_file)
+        GenerateMd5ForSccJob.perform_later(@movie)
+      end
+    end
+
     respond_to do |format|
-      if @movie.update(movie_params.except(:actors, :genres, :countries, :territories, :images))
+      if @movie.update(movie_params.except(:actors, :genres, :countries, :territories, :images, :scc))
 
         format.html { redirect_to @movie, notice: "Movie was successfully updated." }
         format.json { render :show, status: :ok, location: @movie }

@@ -1,0 +1,5 @@
+class AddSccMd5ToMovies < ActiveRecord::Migration[8.0]
+  def change
+    add_column :movies, :scc_md5, :string
+  end
+end

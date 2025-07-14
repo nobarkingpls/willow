@@ -73,6 +73,14 @@
   </p>
 
   <p>
+    <strong>Captions:</strong><br>
+    <% if movie.scc.attached? %>
+      <%= link_to url_for(movie.scc) %> 
+      <br>Md5: <%= movie.scc_md5 %>
+    <% end %>
+  </p>
+
+  <p>
     <strong>Xmls:</strong><br>
     <%= link_to 'Export XML', export_xml_movie_path(@movie, format: :xml) %> |
     <%= link_to 'Export YT XML', yt_xml_movie_path(@movie, format: :xml) %>
